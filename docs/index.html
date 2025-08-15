@@ -6,30 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Chat-Befehle</title>
     <style>
-        @keyframes fadeInFromTop {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        h1 { color: #9146ff; margin-bottom: 5px; opacity: 0; animation: fadeInFromTop 0.6s ease-out forwards; }
+        h1 { color: #9146ff; margin-bottom: 5px; }
         
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; opacity: 0; animation: fadeInFromTop 0.6s ease-out 0.1s forwards; }
+        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; }
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
-        td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        .table-header-row td { 
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
+        th { 
             background-color: #333; 
             color: #e0e0e0; 
             font-weight: bold; 
             cursor: pointer; 
             user-select: none; 
-            position: relative;
+            position: relative; 
         }
-        .table-header-row td:hover { background-color: #444; }
-        .table-header-row .sorted { background-color: #444; }
+        th:hover { background-color: #444; }
+        th.sorted { background-color: #444; }
         
         .sort-icon { position: absolute; right: 10px; color: inherit; }
         
@@ -37,9 +32,6 @@
         
         #sort-command { width: 25%; }
         #sort-shortcut { width: 25%; }
-
-        tr { opacity: 0; }
-        tr.animated { animation: fadeInFromTop 0.6s ease-out forwards; }
     </style>
 </head>
 <body>
@@ -48,12 +40,14 @@
         Bot-Prefix: #
     </div>
     <table>
-        <tbody>
-            <tr class="table-header-row">
-                <td id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></td>
-                <td id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></td>
-                <td>Beschreibung</td>
+        <thead>
+            <tr>
+                <th id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></th>
+                <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
+                <th>Beschreibung</th>
             </tr>
+        </thead>
+        <tbody id="command-table-body">
 
             <tr>
                 <td>agb</td>
@@ -173,23 +167,11 @@
         </tbody>
     </table>
     <script>
-        function applyRowAnimation() {
-            const rows = document.querySelectorAll('tbody tr:not(.table-header-row)');
-            rows.forEach((row, index) => {
-                row.classList.remove('animated');
-                void row.offsetWidth;
-                row.classList.add('animated');
-                row.style.animationDelay = `${0.3 + index * 0.05}s`;
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded', applyRowAnimation);
-
         let currentSortColumn = null;
         let sortOrder = 'asc';
 
         function sortTableByColumn(columnId) {
-            const tableBody = document.querySelector('tbody');
+            const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
             
             if (currentSortColumn !== columnId) {
@@ -204,7 +186,7 @@
             header.classList.add('sorted');
 
             const columnIndex = header.cellIndex;
-            const rows = Array.from(tableBody.querySelectorAll('tr:not(.table-header-row)'));
+            const rows = Array.from(tableBody.rows);
             
             const sortedRows = rows.sort((a, b) => {
                 const aText = a.cells[columnIndex].textContent.toLowerCase();
@@ -232,8 +214,6 @@
 
             sortedRows.forEach(row => tableBody.appendChild(row));
             
-            applyRowAnimation();
-
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
         }
