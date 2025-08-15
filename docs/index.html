@@ -19,18 +19,17 @@
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        th { 
+        td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
+        .table-header-row td { 
             background-color: #333; 
             color: #e0e0e0; 
             font-weight: bold; 
             cursor: pointer; 
             user-select: none; 
             position: relative;
-            display: table-cell !important;
         }
-        th:hover { background-color: #444; }
-        th.sorted { background-color: #444; }
+        .table-header-row td:hover { background-color: #444; }
+        .table-header-row .sorted { background-color: #444; }
         
         .sort-icon { position: absolute; right: 10px; color: inherit; }
         
@@ -49,14 +48,12 @@
         Bot-Prefix: #
     </div>
     <table>
-        <thead>
-            <tr>
-                <th id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></th>
-                <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
-                <th>Beschreibung</th>
+        <tbody>
+            <tr class="table-header-row">
+                <td id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></td>
+                <td id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></td>
+                <td>Beschreibung</td>
             </tr>
-        </thead>
-        <tbody id="command-table-body">
 
             <tr>
                 <td>agb</td>
@@ -177,7 +174,7 @@
     </table>
     <script>
         function applyRowAnimation() {
-            const rows = document.querySelectorAll('#command-table-body tr');
+            const rows = document.querySelectorAll('tbody tr:not(.table-header-row)');
             rows.forEach((row, index) => {
                 row.classList.remove('animated');
                 void row.offsetWidth;
@@ -192,7 +189,7 @@
         let sortOrder = 'asc';
 
         function sortTableByColumn(columnId) {
-            const tableBody = document.getElementById('command-table-body');
+            const tableBody = document.querySelector('tbody');
             const header = document.getElementById(columnId);
             
             if (currentSortColumn !== columnId) {
@@ -207,7 +204,7 @@
             header.classList.add('sorted');
 
             const columnIndex = header.cellIndex;
-            const rows = Array.from(tableBody.rows);
+            const rows = Array.from(tableBody.querySelectorAll('tr:not(.table-header-row)'));
             
             const sortedRows = rows.sort((a, b) => {
                 const aText = a.cells[columnIndex].textContent.toLowerCase();
