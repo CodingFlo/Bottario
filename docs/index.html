@@ -30,13 +30,8 @@
         
         tr:hover { background-color: #383838; }
 
-        /* Animations-Styling */
         tbody tr {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        tbody tr.sorting {
-            transform: scale(0.98);
-            opacity: 0.5;
+            transition: transform 0.4s ease;
         }
 
         #sort-command { width: 25%; }
@@ -183,8 +178,9 @@
             const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
 
-            // Animation starten
-            Array.from(tableBody.rows).forEach(row => row.classList.add('sorting'));
+            // Positionen vor der Sortierung messen
+            const rows = Array.from(tableBody.rows);
+            const startPositions = rows.map(row => row.getBoundingClientRect());
 
             if (currentSortColumn !== columnId) {
                 sortOrder = 'asc';
@@ -198,7 +194,6 @@
             header.classList.add('sorted');
 
             const columnIndex = header.cellIndex;
-            const rows = Array.from(tableBody.rows);
 
             const sortedRows = rows.sort((a, b) => {
                 const aText = a.cells[columnIndex].textContent.toLowerCase();
@@ -218,13 +213,20 @@
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
 
-            // Nach kleiner Verzögerung neu einfügen, damit Animation sichtbar ist
-            setTimeout(() => {
-                sortedRows.forEach(row => {
-                    row.classList.remove('sorting');
-                    tableBody.appendChild(row);
+            // Neu einfügen (aber Positionen merken)
+            sortedRows.forEach(row => tableBody.appendChild(row));
+
+            // Positionen nach der Sortierung messen
+            const endPositions = sortedRows.map(row => row.getBoundingClientRect());
+
+            // FLIP-Animation anwenden
+            sortedRows.forEach((row, i) => {
+                const deltaY = startPositions[i].top - endPositions[i].top;
+                row.style.transform = `translateY(${deltaY}px)`;
+                requestAnimationFrame(() => {
+                    row.style.transform = '';
                 });
-            }, 300);
+            });
 
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
