@@ -8,9 +8,7 @@
     <style>
         body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         h1 { color: #9146ff; margin-bottom: 5px; }
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; } /* ÄNDERUNG: Hintergrund, Padding, Schatten und Rahmen entfernt */
-        .prefix-text { color: #e0e0e0; font-weight: bold; }
-        .prefix { color: #9146ff; font-weight: bold; } /* ÄNDERUNG: Farbe an Überschrift angepasst */
+        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; } /* ÄNDERUNG: Farbe hier festgelegt */
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
         th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; }
@@ -25,8 +23,7 @@
 <body>
     <h1>Twitch Bot-Befehle</h1>
     <div class="prefix-container">
-        <span class="prefix-text">Bot-Prefix: </span>
-        <span class="prefix">#</span>
+        (Bot-Prefix: #)
     </div>
     <table>
         <thead>
