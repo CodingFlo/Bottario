@@ -29,7 +29,16 @@
         .sort-icon { position: absolute; right: 10px; color: inherit; }
         
         tr:hover { background-color: #383838; }
-        
+
+        /* Animations-Styling */
+        tbody tr {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        tbody tr.sorting {
+            transform: scale(0.98);
+            opacity: 0.5;
+        }
+
         #sort-command { width: 25%; }
         #sort-shortcut { width: 25%; }
     </style>
@@ -173,7 +182,10 @@
         function sortTableByColumn(columnId) {
             const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
-            
+
+            // Animation starten
+            Array.from(tableBody.rows).forEach(row => row.classList.add('sorting'));
+
             if (currentSortColumn !== columnId) {
                 sortOrder = 'asc';
                 if (currentSortColumn) {
@@ -187,24 +199,18 @@
 
             const columnIndex = header.cellIndex;
             const rows = Array.from(tableBody.rows);
-            
+
             const sortedRows = rows.sort((a, b) => {
                 const aText = a.cells[columnIndex].textContent.toLowerCase();
                 const bText = b.cells[columnIndex].textContent.toLowerCase();
 
                 let comparison = 0;
-
                 if (columnId === 'sort-shortcut') {
                     const aIsSpecial = !/^[a-z0-9]/.test(aText);
                     const bIsSpecial = !/^[a-z0-9]/.test(bText);
-
-                    if (aIsSpecial && !bIsSpecial) {
-                        comparison = 1;
-                    } else if (!aIsSpecial && bIsSpecial) {
-                        comparison = -1;
-                    } else {
-                        comparison = aText.localeCompare(bText);
-                    }
+                    if (aIsSpecial && !bIsSpecial) comparison = 1;
+                    else if (!aIsSpecial && bIsSpecial) comparison = -1;
+                    else comparison = aText.localeCompare(bText);
                 } else {
                     comparison = aText.localeCompare(bText);
                 }
@@ -212,8 +218,14 @@
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
 
-            sortedRows.forEach(row => tableBody.appendChild(row));
-            
+            // Nach kleiner Verzögerung neu einfügen, damit Animation sichtbar ist
+            setTimeout(() => {
+                sortedRows.forEach(row => {
+                    row.classList.remove('sorting');
+                    tableBody.appendChild(row);
+                });
+            }, 300);
+
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
         }
