@@ -18,14 +18,14 @@
 
         body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        h1 { color: #9146ff; margin-bottom: 5px; opacity: 0; animation: fadeInFromTop 0.6s ease-out forwards; } /* Verzögerung verkürzt */
+        h1 { color: #9146ff; margin-bottom: 5px; opacity: 0; animation: fadeInFromTop 0.6s ease-out forwards; }
         
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; opacity: 0; animation: fadeInFromTop 0.6s ease-out 0.1s forwards; } /* Verzögerung verkürzt */
+        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; opacity: 0; animation: fadeInFromTop 0.6s ease-out 0.1s forwards; }
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; opacity: 0; animation: fadeIn 0.6s ease-out 0.2s forwards; } /* Verzögerung verkürzt */
+        th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; opacity: 0; animation: fadeIn 0.6s ease-out 0.2s forwards; }
         th:hover { background-color: #444; }
         th.sorted { background-color: #444; }
         
@@ -176,7 +176,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const rows = document.querySelectorAll('#command-table-body tr');
             rows.forEach((row, index) => {
-                row.style.animationDelay = `${0.3 + index * 0.05}s`; /* Verzögerung verkürzt */
+                row.style.animationDelay = `${0.3 + index * 0.05}s`;
             });
         });
 
@@ -228,10 +228,8 @@
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
 
-            // Entferne alte Zeilen und füge sortierte Zeilen hinzu
-            while (tableBody.firstChild) {
-                tableBody.removeChild(tableBody.firstChild);
-            }
+            // Füge sortierte Zeilen wieder in die Tabelle ein,
+            // wodurch die DOM-Elemente neu positioniert werden, ohne die Animation neu zu starten.
             sortedRows.forEach(row => tableBody.appendChild(row));
 
             // Aktualisiere Sortiersymbole
