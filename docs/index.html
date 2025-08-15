@@ -6,11 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Chat-Befehle</title>
     <style>
+        @keyframes fadeInFromTop {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        h1 { color: #9146ff; margin-bottom: 5px; }
+        h1 { color: #9146ff; margin-bottom: 5px; opacity: 0; animation: fadeInFromTop 0.6s ease-out forwards; }
         
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; }
+        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; opacity: 0; animation: fadeInFromTop 0.6s ease-out 0.1s forwards; }
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
@@ -32,6 +37,33 @@
         
         #sort-command { width: 25%; }
         #sort-shortcut { width: 25%; }
+
+        /* 3D Flip-Effekt */
+        .flipper-container { 
+            perspective: 1000px;
+            width: 100%;
+        }
+        .tbody-flipper {
+            position: relative;
+            width: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .tbody-flipper.flipped {
+            transform: rotateY(180deg);
+        }
+        .tbody-front, .tbody-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            top: 0;
+            left: 0;
+        }
+        .tbody-back {
+            transform: rotateY(180deg);
+        }
+        
     </style>
 </head>
 <body>
@@ -47,7 +79,8 @@
                 <th>Beschreibung</th>
             </tr>
         </thead>
-        <tbody id="command-table-body">
+        <tbody class="tbody-flipper">
+            <tbody id="command-table-body-front" class="tbody-front">
 
             <tr>
                 <td>agb</td>
@@ -164,14 +197,27 @@
                 <td>-</td>
                 <td>Ein Befehl, der alle verfügbaren Befehle auflistet.</td>
             </tr>
+            </tbody>
+            <tbody id="command-table-body-back" class="tbody-back">
+            </tbody>
         </tbody>
     </table>
     <script>
         let currentSortColumn = null;
         let sortOrder = 'asc';
 
+        const flipper = document.querySelector('.tbody-flipper');
+        const tableBodyFront = document.getElementById('command-table-body-front');
+        const tableBodyBack = document.getElementById('command-table-body-back');
+        
+        // Initialer Inhalt für die Rückseite
+        const initialCommands = [{name: "agb", shortCut: "-", explanation: "Ein Spaßbefehl mit dem man darüber aufklärt, dass Chris gerade Unwahrheiten erzählt, aber trotzdem Recht hat laut seinen AGBs"},{name: "cheater", shortCut: "-", explanation: "Ein Spaßbefehl mit dem man Chris darüber aufmerksam macht, dass er cheatet"},{name: "discord", shortCut: "dc", explanation: "Ein Befehl mit dem man den Link zu Chris seinem Discord-Server bekommt"},{name: "followage", shortCut: "-", explanation: "Ein Befehl mit dem angezeigt wird, wie lange ein User Chris schon folgt, bzw. ob ein User Chris folgt"},{name: "freundescode", shortCut: "-", explanation: "Ein Befehl mit dem man den Switch Freundescode von Chris bekommt"},{name: "insta", shortCut: "-", explanation: "Ein Befehl mit dem man den Link zu Chris seinem Instagram-Account bekommt"},{name: "lurk", shortCut: "-", explanation: "Ein Befehl mit dem man Chris mitteilen kann, dass man in den Lurk-Modus wechselt"},{name: "of", shortCut: "-", explanation: "Ein Spaßbefehl mit dem man den Link zu Chris seinem Discord-Server bekommt"},{name: "peter", shortCut: "-", explanation: "Ein Spaßbefehl mit dem aufgeklärt wird, warum Chris oft Peter schreit oder es nicht böse gemeint ist"},{name: "setgame", shortCut: "game", explanation: "Ein Befehl rein für Mods, mit dem das gestreamte Game geändert werden kann"},{name: "settitle", shortCut: "title", explanation: "Ein Befehl rein für Mods, mit dem der Streamtitel geändert werden kann"},{name: "shoutout", shortCut: "so", explanation: "Ein Befehl rein für Mods um jemanden einen Shoutout zu geben"},{name: "streik", shortCut: "-", explanation: "Ein Spaßbefehl, der ein Zeichen setzt"},{name: "test", shortCut: "-", explanation: "Befehl mit dem man den testen kann, ob der Bot auf Befehle reagiert oder ein Fehler vorliegt"},{name: "tiktok", shortCut: "tt", explanation: "Befehl mit dem man den Link direkt zu Chris' TikTok Kanal bekommt"},{name: "unlurk", shortCut: "-", explanation: "Befehl mit dem man mitteilen kann, dass man nun nicht mehr lurkt"},{name: "vod", shortCut: "-", explanation: "Befehl mit dem man den Link direkt zu Chris' VOD Kanal bekommt"},{name: "twitter", shortCut: "x", explanation: "Befehl mit dem man den Link direkt zu Chris' X/Twitter Kanal bekommt"},{name: "yta", shortCut: "-", explanation: "Befehl mit dem man den Link direkt zu Chris seinen Anno Kanal bekommt"},{name: "yt", shortCut: "-", explanation: "Befehl mit dem man den Link direkt zu Chris' YouTube Kanal bekommt"},{name: "yth", shortCut: "-", explanation: "Befehl mit dem man den Link direkt zu Chris seinen Horror YouTube Kanal bekommt"},{name: "yto", shortCut: "-", explanation: "Befehl mit dem man den Link direkt zu Chris' seinen Pokemon Opening Kanal bekommt"},{name: "commands", shortCut: "-", explanation: "Ein Befehl, der alle verfügbaren Befehle auflistet."}];
+
+        function createTableRows(commands) {
+            return commands.map(cmd => `<tr><td>${cmd.name}</td><td>${cmd.shortCut}</td><td>${cmd.explanation}</td></tr>`).join('');
+        }
+
         function sortTableByColumn(columnId) {
-            const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
             
             if (currentSortColumn !== columnId) {
@@ -186,7 +232,7 @@
             header.classList.add('sorted');
 
             const columnIndex = header.cellIndex;
-            const rows = Array.from(tableBody.rows);
+            const rows = Array.from(tableBodyFront.rows);
             
             const sortedRows = rows.sort((a, b) => {
                 const aText = a.cells[columnIndex].textContent.toLowerCase();
@@ -211,9 +257,21 @@
 
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
-
-            sortedRows.forEach(row => tableBody.appendChild(row));
             
+            // Fülle die Rückseite der Tabelle mit den sortierten Daten
+            tableBodyBack.innerHTML = sortedRows.map(row => row.outerHTML).join('');
+
+            // Starte die Flip-Animation
+            flipper.classList.add('flipped');
+
+            // Warte, bis die Animation abgeschlossen ist
+            setTimeout(() => {
+                // Aktualisiere die Vorderseite und setze den Flip zurück
+                tableBodyFront.innerHTML = tableBodyBack.innerHTML;
+                flipper.classList.remove('flipped');
+                tableBodyBack.innerHTML = '';
+            }, 800);
+
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
         }
