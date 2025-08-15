@@ -6,26 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Chat-Befehle</title>
     <style>
-        @keyframes fadeInFromTop {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes slideInFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         
-        h1 { color: #9146ff; margin-bottom: 5px; opacity: 0; animation: fadeInFromTop 0.6s ease-out forwards; }
+        h1, .prefix-container, table {
+            opacity: 0;
+            animation: slideInFromLeft 0.8s ease-out forwards;
+        }
+
+        h1 { color: #9146ff; margin-bottom: 5px; }
         
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; opacity: 0; animation: fadeInFromTop 0.6s ease-out 0.1s forwards; }
+        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; }
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; opacity: 0; animation: fadeIn 0.6s ease-out 0.2s forwards; }
+        th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; }
         th:hover { background-color: #444; }
         th.sorted { background-color: #444; }
         
@@ -35,8 +35,8 @@
         
         #sort-command { width: 25%; }
         #sort-shortcut { width: 25%; }
-
-        tr { opacity: 0; animation: fadeIn 0.6s ease-out forwards; }
+        
+        tr { opacity: 0; animation: slideInFromLeft 0.6s ease-out forwards; }
     </style>
 </head>
 <body>
@@ -172,14 +172,6 @@
         </tbody>
     </table>
     <script>
-        // Gestaffelte Animation für Tabellenzeilen
-        document.addEventListener('DOMContentLoaded', () => {
-            const rows = document.querySelectorAll('#command-table-body tr');
-            rows.forEach((row, index) => {
-                row.style.animationDelay = `${0.3 + index * 0.05}s`;
-            });
-        });
-
         let currentSortColumn = null;
         let sortOrder = 'asc';
 
@@ -187,7 +179,6 @@
             const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
             
-            // Setze Sortierreihenfolge zurück, wenn eine neue Spalte angeklickt wird
             if (currentSortColumn !== columnId) {
                 sortOrder = 'asc';
                 if (currentSortColumn) {
@@ -209,7 +200,6 @@
                 let comparison = 0;
 
                 if (columnId === 'sort-shortcut') {
-                    // Sonderzeichenbehandlung für Kürzel
                     const aIsSpecial = !/^[a-z0-9]/.test(aText);
                     const bIsSpecial = !/^[a-z0-9]/.test(bText);
 
@@ -221,23 +211,18 @@
                         comparison = aText.localeCompare(bText);
                     }
                 } else {
-                    // Normale alphabetische Sortierung
                     comparison = aText.localeCompare(bText);
                 }
 
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
 
-            // Füge sortierte Zeilen wieder in die Tabelle ein,
-            // wodurch die DOM-Elemente neu positioniert werden, ohne die Animation neu zu starten.
             sortedRows.forEach(row => tableBody.appendChild(row));
 
-            // Aktualisiere Sortiersymbole
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
         }
 
-        // Füge Klick-Listener zu den Spaltenüberschriften hinzu
         document.getElementById('sort-command').onclick = () => sortTableByColumn('sort-command');
         document.getElementById('sort-shortcut').onclick = () => sortTableByColumn('sort-shortcut');
     </script>
