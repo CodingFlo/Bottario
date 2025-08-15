@@ -20,7 +20,15 @@
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; } /* ANIMATION ENTFERNT */
+        th { 
+            background-color: #333; 
+            color: #e0e0e0; 
+            font-weight: bold; 
+            cursor: pointer; 
+            user-select: none; 
+            position: relative; 
+            opacity: 1 !important; /* Stellt sicher, dass es sichtbar ist */
+        }
         th:hover { background-color: #444; }
         th.sorted { background-color: #444; }
         
