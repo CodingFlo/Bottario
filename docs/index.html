@@ -186,17 +186,17 @@
         </tbody>
     </table>
     <script>
-        function applyRowAnimation() {
+        function applyRowAnimation(delay = 0.8) {
             const rows = document.querySelectorAll('#command-table-body tr');
             rows.forEach((row, index) => {
                 row.classList.remove('animated');
                 void row.offsetWidth; // Trigger reflow
                 row.classList.add('animated');
-                row.style.animationDelay = `${0.8 + index * 0.05}s`;
+                row.style.animationDelay = `${delay + index * 0.05}s`;
             });
         }
         
-        document.addEventListener('DOMContentLoaded', applyRowAnimation);
+        document.addEventListener('DOMContentLoaded', () => applyRowAnimation(0.8));
 
         let currentSortColumn = null;
         let sortOrder = 'asc';
@@ -245,7 +245,8 @@
 
             sortedRows.forEach(row => tableBody.appendChild(row));
             
-            applyRowAnimation();
+            // Sofortige Animation ohne Verzögerung
+            applyRowAnimation(0);
 
             document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
             header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
