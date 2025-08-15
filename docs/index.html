@@ -16,8 +16,10 @@
         th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; }
         th:hover { background-color: #444; }
         th.sorted { background-color: #444; }
-        .sort-icon { position: absolute; right: 10px; color: #9146ff; }
+        .sort-icon { position: absolute; right: 10px; color: inherit; } /* ÄNDERUNG: Farbe erben */
         tr:hover { background-color: #383838; }
+        #sort-command { width: 25%; } /* ÄNDERUNG: Spaltenbreite festgelegt */
+        #sort-shortcut { width: 25%; } /* ÄNDERUNG: Spaltenbreite festgelegt */
     </style>
 </head>
 <body>
