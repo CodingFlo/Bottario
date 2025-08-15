@@ -2,246 +2,219 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitch Chat-Befehle</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        
-        h1 { color: #9146ff; margin-bottom: 5px; }
-        
-        .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; }
-        
-        table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
-        
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
-        th { 
-            background-color: #333; 
-            color: #e0e0e0; 
-            font-weight: bold; 
-            cursor: pointer; 
-            user-select: none; 
-            position: relative; 
-        }
-        th:hover { background-color: #444; }
-        th.sorted { background-color: #444; }
-        
-        .sort-icon { position: absolute; right: 10px; color: inherit; }
-        
-        tr:hover { background-color: #383838; }
-
-        /* Für flüssige Bewegung */
-        tbody tr {
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        #sort-command { width: 25%; }
-        #sort-shortcut { width: 25%; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitch Chat-Befehle</title>
+<style>
+    body { font-family: Arial, sans-serif; background-color: #181818; color: #ffffff; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+    h1 { color: #9146ff; margin-bottom: 5px; }
+    .prefix-container { margin-bottom: 20px; font-size: 1.2em; color: #e0e0e0; }
+    table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #282828; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid #444; }
+    th { background-color: #333; color: #e0e0e0; font-weight: bold; cursor: pointer; user-select: none; position: relative; }
+    th:hover { background-color: #444; }
+    th.sorted { background-color: #444; }
+    .sort-icon { position: absolute; right: 10px; color: inherit; }
+    tr:hover { background-color: #383838; }
+    tbody tr { transition: transform 0.4s ease, opacity 0.4s ease; }
+    #sort-command { width: 25%; }
+    #sort-shortcut { width: 25%; }
+</style>
 </head>
 <body>
-    <h1>Twitch Bot-Befehle</h1>
-    <div class="prefix-container">
-        Bot-Prefix: #
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></th>
-                <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
-                <th>Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody id="command-table-body">
+<h1>Twitch Bot-Befehle</h1>
+<div class="prefix-container">Bot-Prefix: #</div>
+<table>
+<thead>
+<tr>
+    <th id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></th>
+    <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
+    <th>Beschreibung</th>
+</tr>
+</thead>
+<tbody id="command-table-body">
 
-            <tr>
-                <td>agb</td>
-                <td>-</td>
-                <td>Ein Spaßbefehl mit dem man darüber aufklärt, dass Chris gerade Unwahrheiten erzählt, aber trotzdem Recht hat laut seinen AGBs</td>
-            </tr>
-            <tr>
-                <td>cheater</td>
-                <td>-</td>
-                <td>Ein Spaßbefehl mit dem man Chris darüber aufmerksam macht, dass er cheatet</td>
-            </tr>
-            <tr>
-                <td>discord</td>
-                <td>dc</td>
-                <td>Ein Befehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
-            </tr>
-            <tr>
-                <td>followage</td>
-                <td>-</td>
-                <td>Ein Befehl mit dem angezeigt wird, wie lange ein User Chris schon folgt, bzw. ob ein User Chris folgt</td>
-            </tr>
-            <tr>
-                <td>freundescode</td>
-                <td>-</td>
-                <td>Ein Befehl mit dem man den Switch Freundescode von Chris bekommt</td>
-            </tr>
-            <tr>
-                <td>insta</td>
-                <td>-</td>
-                <td>Ein Befehl mit dem man den Link zu Chris seinem Instagram-Account bekommt</td>
-            </tr>
-            <tr>
-                <td>lurk</td>
-                <td>-</td>
-                <td>Ein Befehl mit dem man Chris mitteilen kann, dass man in den Lurk-Modus wechselt</td>
-            </tr>
-            <tr>
-                <td>of</td>
-                <td>-</td>
-                <td>Ein Spaßbefehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
-            </tr>
-            <tr>
-                <td>peter</td>
-                <td>-</td>
-                <td>Ein Spaßbefehl mit dem aufgeklärt wird, warum Chris oft Peter schreit oder es nicht böse gemeint ist</td>
-            </tr>
-            <tr>
-                <td>setgame</td>
-                <td>game</td>
-                <td>Ein Befehl rein für Mods, mit dem das gestreamte Game geändert werden kann</td>
-            </tr>
-            <tr>
-                <td>settitle</td>
-                <td>title</td>
-                <td>Ein Befehl rein für Mods, mit dem der Streamtitel geändert werden kann</td>
-            </tr>
-            <tr>
-                <td>shoutout</td>
-                <td>so</td>
-                <td>Ein Befehl rein für Mods um jemanden einen Shoutout zu geben</td>
-            </tr>
-            <tr>
-                <td>streik</td>
-                <td>-</td>
-                <td>Ein Spaßbefehl, der ein Zeichen setzt</td>
-            </tr>
-            <tr>
-                <td>test</td>
-                <td>-</td>
-                <td>Befehl mit dem man den testen kann, ob der Bot auf Befehle reagiert oder ein Fehler vorliegt</td>
-            </tr>
-            <tr>
-                <td>tiktok</td>
-                <td>tt</td>
-                <td>Befehl mit dem man den Link direkt zu Chris' TikTok Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>unlurk</td>
-                <td>-</td>
-                <td>Befehl mit dem man mitteilen kann, dass man nun nicht mehr lurkt</td>
-            </tr>
-            <tr>
-                <td>vod</td>
-                <td>-</td>
-                <td>Befehl mit dem man den Link direkt zu Chris' VOD Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>twitter</td>
-                <td>x</td>
-                <td>Befehl mit dem man den Link direkt zu Chris' X/Twitter Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>yta</td>
-                <td>-</td>
-                <td>Befehl mit dem man den Link direkt zu Chris seinen Anno Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>yt</td>
-                <td>-</td>
-                <td>Befehl mit dem man den Link direkt zu Chris' YouTube Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>yth</td>
-                <td>-</td>
-                <td>Befehl mit dem man den Link direkt zu Chris seinen Horror YouTube Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>yto</td>
-                <td>-</td>
-                <td>Befehl mit dem man den Link direkt zu Chris' seinen Pokemon Opening Kanal bekommt</td>
-            </tr>
-            <tr>
-                <td>commands</td>
-                <td>-</td>
-                <td>Ein Befehl, der alle verfügbaren Befehle auflistet.</td>
-            </tr>
-        </tbody>
-    </table>
-    <script>
-        let currentSortColumn = null;
-        let sortOrder = 'asc';
+<tr>
+    <td>agb</td>
+    <td>-</td>
+    <td>Ein Spaßbefehl mit dem man darüber aufklärt, dass Chris gerade Unwahrheiten erzählt, aber trotzdem Recht hat laut seinen AGBs</td>
+</tr>
+<tr>
+    <td>cheater</td>
+    <td>-</td>
+    <td>Ein Spaßbefehl mit dem man Chris darüber aufmerksam macht, dass er cheatet</td>
+</tr>
+<tr>
+    <td>discord</td>
+    <td>dc</td>
+    <td>Ein Befehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
+</tr>
+<tr>
+    <td>followage</td>
+    <td>-</td>
+    <td>Ein Befehl mit dem angezeigt wird, wie lange ein User Chris schon folgt, bzw. ob ein User Chris folgt</td>
+</tr>
+<tr>
+    <td>freundescode</td>
+    <td>-</td>
+    <td>Ein Befehl mit dem man den Switch Freundescode von Chris bekommt</td>
+</tr>
+<tr>
+    <td>insta</td>
+    <td>-</td>
+    <td>Ein Befehl mit dem man den Link zu Chris seinem Instagram-Account bekommt</td>
+</tr>
+<tr>
+    <td>lurk</td>
+    <td>-</td>
+    <td>Ein Befehl mit dem man Chris mitteilen kann, dass man in den Lurk-Modus wechselt</td>
+</tr>
+<tr>
+    <td>of</td>
+    <td>-</td>
+    <td>Ein Spaßbefehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
+</tr>
+<tr>
+    <td>peter</td>
+    <td>-</td>
+    <td>Ein Spaßbefehl mit dem aufgeklärt wird, warum Chris oft Peter schreit oder es nicht böse gemeint ist</td>
+</tr>
+<tr>
+    <td>setgame</td>
+    <td>game</td>
+    <td>Ein Befehl rein für Mods, mit dem das gestreamte Game geändert werden kann</td>
+</tr>
+<tr>
+    <td>settitle</td>
+    <td>title</td>
+    <td>Ein Befehl rein für Mods, mit dem der Streamtitel geändert werden kann</td>
+</tr>
+<tr>
+    <td>shoutout</td>
+    <td>so</td>
+    <td>Ein Befehl rein für Mods um jemanden einen Shoutout zu geben</td>
+</tr>
+<tr>
+    <td>streik</td>
+    <td>-</td>
+    <td>Ein Spaßbefehl, der ein Zeichen setzt</td>
+</tr>
+<tr>
+    <td>test</td>
+    <td>-</td>
+    <td>Befehl mit dem man den testen kann, ob der Bot auf Befehle reagiert oder ein Fehler vorliegt</td>
+</tr>
+<tr>
+    <td>tiktok</td>
+    <td>tt</td>
+    <td>Befehl mit dem man den Link direkt zu Chris' TikTok Kanal bekommt</td>
+</tr>
+<tr>
+    <td>unlurk</td>
+    <td>-</td>
+    <td>Befehl mit dem man mitteilen kann, dass man nun nicht mehr lurkt</td>
+</tr>
+<tr>
+    <td>vod</td>
+    <td>-</td>
+    <td>Befehl mit dem man den Link direkt zu Chris' VOD Kanal bekommt</td>
+</tr>
+<tr>
+    <td>twitter</td>
+    <td>x</td>
+    <td>Befehl mit dem man den Link direkt zu Chris' X/Twitter Kanal bekommt</td>
+</tr>
+<tr>
+    <td>yta</td>
+    <td>-</td>
+    <td>Befehl mit dem man den Link direkt zu Chris seinen Anno Kanal bekommt</td>
+</tr>
+<tr>
+    <td>yt</td>
+    <td>-</td>
+    <td>Befehl mit dem man den Link direkt zu Chris' YouTube Kanal bekommt</td>
+</tr>
+<tr>
+    <td>yth</td>
+    <td>-</td>
+    <td>Befehl mit dem man den Link direkt zu Chris seinen Horror YouTube Kanal bekommt</td>
+</tr>
+<tr>
+    <td>yto</td>
+    <td>-</td>
+    <td>Befehl mit dem man den Link direkt zu Chris' seinen Pokemon Opening Kanal bekommt</td>
+</tr>
+<tr>
+    <td>commands</td>
+    <td>-</td>
+    <td>Ein Befehl, der alle verfügbaren Befehle auflistet.</td>
+</tr>
+</tbody>
+</table>
+<script>
+let currentSortColumn = null;
+let sortOrder = 'asc';
 
-        function sortTableByColumn(columnId) {
-            const tableBody = document.getElementById('command-table-body');
-            const header = document.getElementById(columnId);
+function sortTableByColumn(columnId) {
+    const tableBody = document.getElementById('command-table-body');
+    const header = document.getElementById(columnId);
+    const rows = Array.from(tableBody.rows);
 
-            const rows = Array.from(tableBody.rows);
+    // Positionen vor der Sortierung merken
+    const startPos = rows.map(row => row.getBoundingClientRect());
 
-            // Positionen vor der Sortierung
-            const startPos = rows.map(row => row.getBoundingClientRect());
+    if (currentSortColumn !== columnId) {
+        sortOrder = 'asc';
+        if (currentSortColumn) document.getElementById(currentSortColumn).classList.remove('sorted');
+    } else {
+        sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+    }
+    currentSortColumn = columnId;
+    header.classList.add('sorted');
 
-            if (currentSortColumn !== columnId) {
-                sortOrder = 'asc';
-                if (currentSortColumn) {
-                    document.getElementById(currentSortColumn).classList.remove('sorted');
-                }
-            } else {
-                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-            }
-            currentSortColumn = columnId;
-            header.classList.add('sorted');
-
-            const columnIndex = header.cellIndex;
-
-            const sortedRows = rows.sort((a, b) => {
-                const aText = a.cells[columnIndex].textContent.toLowerCase();
-                const bText = b.cells[columnIndex].textContent.toLowerCase();
-
-                let comparison = 0;
-                if (columnId === 'sort-shortcut') {
-                    const aIsSpecial = !/^[a-z0-9]/.test(aText);
-                    const bIsSpecial = !/^[a-z0-9]/.test(bText);
-                    if (aIsSpecial && !bIsSpecial) comparison = 1;
-                    else if (!aIsSpecial && bIsSpecial) comparison = -1;
-                    else comparison = aText.localeCompare(bText);
-                } else {
-                    comparison = aText.localeCompare(bText);
-                }
-
-                return sortOrder === 'asc' ? comparison : -comparison;
-            });
-
-            // Sofort DOM anpassen
-            sortedRows.forEach(row => tableBody.appendChild(row));
-
-            // Positionen nach der Sortierung
-            const endPos = sortedRows.map(row => row.getBoundingClientRect());
-
-            // FLIP: erst an alte Position setzen
-            sortedRows.forEach((row, i) => {
-                const deltaY = startPos[i].top - endPos[i].top;
-                row.style.transform = `translateY(${deltaY}px)`;
-                row.style.opacity = "0.6";
-            });
-
-            // Animation starten (nächster Frame)
-            requestAnimationFrame(() => {
-                sortedRows.forEach(row => {
-                    row.style.transform = '';
-                    row.style.opacity = "1";
-                });
-            });
-
-            document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
-            header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
+    const columnIndex = header.cellIndex;
+    const sortedRows = rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].textContent.toLowerCase();
+        const bText = b.cells[columnIndex].textContent.toLowerCase();
+        let comparison = 0;
+        if (columnId === 'sort-shortcut') {
+            const aIsSpecial = !/^[a-z0-9]/.test(aText);
+            const bIsSpecial = !/^[a-z0-9]/.test(bText);
+            if (aIsSpecial && !bIsSpecial) comparison = 1;
+            else if (!aIsSpecial && bIsSpecial) comparison = -1;
+            else comparison = aText.localeCompare(bText);
+        } else {
+            comparison = aText.localeCompare(bText);
         }
+        return sortOrder === 'asc' ? comparison : -comparison;
+    });
 
-        document.getElementById('sort-command').onclick = () => sortTableByColumn('sort-command');
-        document.getElementById('sort-shortcut').onclick = () => sortTableByColumn('sort-shortcut');
-    </script>
+    // Neue Reihenfolge ins DOM setzen, aber sofort die alte Position erzwingen
+    sortedRows.forEach((row, i) => tableBody.appendChild(row));
+    const endPos = sortedRows.map(row => row.getBoundingClientRect());
+
+    sortedRows.forEach((row, i) => {
+        const deltaY = startPos[i].top - endPos[i].top;
+        row.style.transform = `translateY(${deltaY}px)`;
+        row.style.opacity = "0.5";
+    });
+
+    // Doppeltes requestAnimationFrame → sichert sichtbare Animation
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            sortedRows.forEach(row => {
+                row.style.transform = "";
+                row.style.opacity = "1";
+            });
+        });
+    });
+
+    document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
+    header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
+}
+
+document.getElementById('sort-command').onclick = () => sortTableByColumn('sort-command');
+document.getElementById('sort-shortcut').onclick = () => sortTableByColumn('sort-shortcut');
+</script>
 </body>
 </html>
