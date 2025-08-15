@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Overlay Konfiguration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #2c2f33;
+            color: #ffffff;
+        }
+
+        .container {
+            background-color: #36393f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #6441a5;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #99aab5;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #4a4d52;
+            padding-bottom: 5px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .twitch-button {
+            display: inline-block;
+            background-color: #6441a5;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin: 10px 0;
+        }
+
+        .twitch-button:hover {
+            background-color: #53308a;
+        }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #4caf50;
+            color: white;
+            display: none;
+            animation: fadein 0.5s forwards;
+        }
+
+        .status-message.error {
+            background-color: #f44336;
+        }
+
+        .status-message.info {
+            background-color: #2196f3;
+        }
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .section-status {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-ok {
+            color: #4caf50;
+        }
+
+        .status-not-ok {
+            color: #f44336;
+        }
+
+        .status-unknown {
+            color: #ffc107;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #36393f;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+
+        .modal-buttons .twitch-button {
+            flex-grow: 1;
+            padding: 10px 15px;
+            font-size: 1em;
+            margin: 0;
+        }
+
+        .modal-buttons .twitch-button.cancel {
+            background-color: #72767d;
+        }
+
+        .modal-buttons .twitch-button.cancel:hover {
+            background-color: #5d6168;
+        }
+
+        /* Hide specific sections based on mode */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Twitch Overlay Konfiguration</h1>
+        <p>Willkommen zur Konfiguration deines Twitch Overlays. Hier kannst du die notwendigen Anmeldungen für deinen
+            Streamer-Account und deinen Bot vornehmen.</p>
+        <div id="streamerSection">
+            <h2>Streamer-Account-Anmeldung
+                <span id="streamerStatus" class="section-status status-unknown">(Status wird geladen...)</span>
+            </h2>
+            <p>Melde dich mit deinem Haupt-Twitch-Konto an. Dies ist für Overlay-Chat, Alerts und alle
+                Twitch-API-Interaktionen unter deinem Kanal erforderlich.</p>
+            <a href="#" id="streamerLoginButton" class="twitch-button">Streamer-Account verbinden</a>
+            <div id="streamerStatusMessage" class="status-message"></div>
+        </div>
+
+        <div id="botSection">
+            <h2>Bot-Account-Anmeldung
+                <span id="botStatus" class="section-status status-unknown">(Status wird geladen...)</span>
+            </h2>
+            <p>Wenn du einen separaten Twitch-Bot verwendest (empfohlen), melde ihn hier an. Dies erlaubt dem Bot,
+                Nachrichten in deinem Chat zu senden und zu empfangen.</p>
+            <a href="#" id="botLoginButton" class="twitch-button">Bot-Account verbinden</a>
+            <div id="botStatusMessage" class="status-message"></div>
+        </div>
+
+        <p style="margin-top: 30px;">
+            Sobald beide Accounts erfolgreich verbunden sind, kannst du dieses Fenster jetzt schließen.
+        </p>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons">
+                <a href="#" id="modalConfirmButton" class="twitch-button">Ja, jetzt anmelden</a>
+                <a href="#" id="modalCancelButton" class="twitch-button cancel">Abbrechen</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const streamerLoginButton = document.getElementById('streamerLoginButton');
+        const botLoginButton = document.getElementById('botLoginButton');
+        const streamerStatusMessageDiv = document.getElementById('streamerStatusMessage');
+        const botStatusMessageDiv = document.getElementById('botStatusMessage');
+        const streamerStatusSpan = document.getElementById('streamerStatus');
+        const botStatusSpan = document.getElementById('botStatus');
+
+        // Modal Elemente
+        const confirmModal = document.getElementById('confirmModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalConfirmButton = document.getElementById('modalConfirmButton');
+        const modalCancelButton = document.getElementById('modalCancelButton');
+        const closeModalButton = document.getElementById('closeModalButton');
+
+        // Sections
+        const streamerSection = document.getElementById('streamerSection');
+        const botSection = document.getElementById('botSection');
+
+
+        let currentLoginType = ''; // 'streamer' oder 'bot'
+        let oauthUrlFromQuery = null; // Variable, um die OAuth URL zu speichern
+
+        // Funktion zum Anzeigen von Statusmeldungen
+        function displayStatus(element, message, type) {
+            element.textContent = message;
+            element.className = 'status-message';
+            if (type) {
+                element.classList.add(type);
+            }
+            element.style.display = 'block';
+        }
+
+        // Funktion zum Aktualisieren des Sektionsstatus-Spans
+        function updateSectionStatus(spanElement, isOk) {
+            if (isOk) {
+                spanElement.textContent = '(verbunden)';
+                spanElement.className = 'section-status status-ok';
+            } else {
+                spanElement.textContent = '(nicht verbunden)';
+                spanElement.className = 'section-status status-not-ok';
+            }
+        }
+
+        // Öffne das Bestätigungsmodal
+        function openConfirmModal(type) {
+            currentLoginType = type;
+            if (type === 'streamer') {
+                modalTitle.textContent = 'Streamer-Account-Anmeldung bestätigen';
+                modalMessage.innerHTML = 'Möchtest du dich wirklich mit deinem **Streamer-Account** bei Twitch anmelden? Achte darauf, dass du mit dem korrekten Konto verbunden bist.';
+                // Setze die URL des Bestätigungsbuttons auf die empfangene oauthUrl
+                if (oauthUrlFromQuery) {
+                    modalConfirmButton.href = oauthUrlFromQuery;
+                } else {
+                    // Fallback oder Fehlerbehandlung, falls oauthUrl nicht vorhanden ist
+                    modalConfirmButton.href = '#';
+                    console.error("OAuth URL nicht im Query String gefunden!");
+                    displayStatus(streamerStatusMessageDiv, 'Fehler: OAuth URL nicht gefunden.', 'error');
+                }
+            } else if (type === 'bot') {
+                modalTitle.textContent = 'Bot-Account-Anmeldung bestätigen';
+                modalMessage.innerHTML = 'Möchtest du dich wirklich mit deinem **Bot-Account** bei Twitch anmelden? Achte darauf, dass du mit dem korrekten Konto verbunden bist.';
+                // Setze die URL des Bestätigungsbuttons auf die empfangene oauthUrl
+                if (oauthUrlFromQuery) {
+                    modalConfirmButton.href = oauthUrlFromQuery;
+                } else {
+                    // Fallback oder Fehlerbehandlung, falls oauthUrl nicht vorhanden ist
+                    modalConfirmButton.href = '#';
+                    console.error("OAuth URL nicht im Query String gefunden!");
+                    displayStatus(streamerStatusMessageDiv, 'Fehler: OAuth URL nicht gefunden.', 'error');
+                }
+            }
+            confirmModal.style.display = 'flex'; // Flexbox für Zentrierung
+        }
+
+        // Schließe das Bestätigungsmodal
+        function closeConfirmModal() {
+            confirmModal.style.display = 'none';
+        }
+
+        // Event Listener für Streamer-Login-Button
+        streamerLoginButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            openConfirmModal('streamer');
+        });
+
+        // Event Listener für Bot-Login-Button
+        botLoginButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            openConfirmModal('bot');
+        });
+
+        // Event Listener für Modal-Buttons
+        modalCancelButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            closeConfirmModal();
+            displayStatus(currentLoginType === 'streamer' ? streamerStatusMessageDiv : botStatusMessageDiv, 'Anmeldung abgebrochen.', 'info');
+        });
+
+        closeModalButton.addEventListener('click', closeConfirmModal);
+
+        // Klick außerhalb des Modals schließt es (optional)
+        window.addEventListener('click', (event) => {
+            if (event.target == confirmModal) {
+                closeConfirmModal();
+            }
+        });
+
+        // Beim Laden der Seite die Query String Parameter prüfen
+        function handleQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const mode = params.get('mode');
+            const oauthUrl = params.get('oauthUrl');
+
+            if (mode === 'streamer') {
+                // Nur Streamer-Sektion anzeigen, Bot-Sektion verstecken
+                botSection.classList.add('hidden');
+                streamerSection.classList.remove('hidden');
+
+                // Speichere die OAuth URL global
+                if (oauthUrl) {
+                    oauthUrlFromQuery = decodeURIComponent(oauthUrl);
+                    console.log("OAuth URL für Streamer empfangen:", oauthUrlFromQuery);
+                    displayStatus(streamerStatusMessageDiv, 'Bitte klicken Sie auf "Streamer-Account verbinden", um die Anmeldung zu starten.', 'info');
+                    updateSectionStatus(streamerStatusSpan, false);
+                } else {
+                    displayStatus(streamerStatusMessageDiv, 'Fehler: Keine OAuth URL für Streamer erhalten. Bitte Server neu starten.', 'error');
+                    updateSectionStatus(streamerStatusSpan, false);
+                    streamerLoginButton.disabled = true; // Button deaktivieren
+                }
+            } else if (mode === 'bot') {
+                console.log("OAuth URL für Bot empfangen:", oauthUrlFromQuery);
+                // Nur Bot-Sektion anzeigen, Streamer-Sektion verstecken (falls dieser Modus später implementiert wird)
+                streamerSection.classList.add('hidden');
+                botSection.classList.remove('hidden');
+
+                // Speichere die OAuth URL global
+                if (oauthUrl) {
+                    oauthUrlFromQuery = decodeURIComponent(oauthUrl);
+                    console.log("OAuth URL für Streamer empfangen:", oauthUrlFromQuery);
+                    displayStatus(streamerStatusMessageDiv, 'Bitte klicken Sie auf "Streamer-Account verbinden", um die Anmeldung zu starten.', 'info');
+                    updateSectionStatus(streamerStatusSpan, false);
+
+                    // Hier würden Sie die Logik für den Bot-Modus implementieren
+                    displayStatus(botStatusMessageDiv, 'Bitte klicken Sie auf "Bot-Account verbinden", um die Anmeldung zu starten.', 'info');
+                    updateSectionStatus(botStatusSpan, false);
+                } else {
+                    displayStatus(streamerStatusMessageDiv, 'Fehler: Keine OAuth URL für Streamer erhalten. Bitte Server neu starten.', 'error');
+                    updateSectionStatus(streamerStatusSpan, false);
+                    streamerLoginButton.disabled = true; // Button deaktivieren
+                }
+            } else {
+                // Standardansicht: beide Sektionen anzeigen
+                streamerSection.classList.remove('hidden');
+                botSection.classList.remove('hidden');
+                displayStatus(streamerStatusMessageDiv, 'Bitte verbinden Sie Ihren Streamer-Account.', 'info');
+                displayStatus(botStatusMessageDiv, 'Bitte verbinden Sie Ihren Bot-Account.', 'info');
+                updateSectionStatus(streamerStatusSpan, false);
+                updateSectionStatus(botStatusSpan, false);
+            }
+        }
+
+        // Initialer Aufruf beim Laden des DOM
+        document.addEventListener('DOMContentLoaded', handleQueryParams);
+    </script>
+</body>
+
+</html>
