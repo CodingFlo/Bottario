@@ -6,11 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Chat-Befehle</title>
     <style>
-        @keyframes slideInFromLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
         @keyframes glitchPop {
             0% {
                 opacity: 0;
@@ -37,7 +32,6 @@
         
         table { width: 100%; max-width: 800px; border-collapse: collapse; background-color: #1a2333; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
         
-        thead tr { opacity: 0; animation: slideInFromLeft 0.5s ease-out 0.3s forwards; }
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #343e52; }
         th { 
             background-color: #1f486e; 
@@ -57,6 +51,7 @@
         #sort-command { width: 25%; }
         #sort-shortcut { width: 25%; }
         
+        tr { opacity: 0; }
         tr.animated { animation: glitchPop 0.8s ease-out forwards; }
     </style>
 </head>
@@ -194,7 +189,7 @@
     </table>
     <script>
         function applyRowAnimation() {
-            const rows = document.querySelectorAll('#command-table-body tr');
+            const rows = document.querySelectorAll('thead tr, #command-table-body tr');
             rows.forEach((row, index) => {
                 row.classList.remove('animated');
                 void row.offsetWidth; // Trigger reflow
