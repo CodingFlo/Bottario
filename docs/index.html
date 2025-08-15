@@ -30,8 +30,9 @@
         
         tr:hover { background-color: #383838; }
 
+        /* Für flüssige Bewegung */
         tbody tr {
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, opacity 0.4s ease;
         }
 
         #sort-command { width: 25%; }
@@ -178,9 +179,10 @@
             const tableBody = document.getElementById('command-table-body');
             const header = document.getElementById(columnId);
 
-            // Positionen vor der Sortierung messen
             const rows = Array.from(tableBody.rows);
-            const startPositions = rows.map(row => row.getBoundingClientRect());
+
+            // Positionen vor der Sortierung
+            const startPos = rows.map(row => row.getBoundingClientRect());
 
             if (currentSortColumn !== columnId) {
                 sortOrder = 'asc';
@@ -213,18 +215,24 @@
                 return sortOrder === 'asc' ? comparison : -comparison;
             });
 
-            // Neu einfügen (aber Positionen merken)
+            // Sofort DOM anpassen
             sortedRows.forEach(row => tableBody.appendChild(row));
 
-            // Positionen nach der Sortierung messen
-            const endPositions = sortedRows.map(row => row.getBoundingClientRect());
+            // Positionen nach der Sortierung
+            const endPos = sortedRows.map(row => row.getBoundingClientRect());
 
-            // FLIP-Animation anwenden
+            // FLIP: erst an alte Position setzen
             sortedRows.forEach((row, i) => {
-                const deltaY = startPositions[i].top - endPositions[i].top;
+                const deltaY = startPos[i].top - endPos[i].top;
                 row.style.transform = `translateY(${deltaY}px)`;
-                requestAnimationFrame(() => {
+                row.style.opacity = "0.6";
+            });
+
+            // Animation starten (nächster Frame)
+            requestAnimationFrame(() => {
+                sortedRows.forEach(row => {
                     row.style.transform = '';
+                    row.style.opacity = "1";
                 });
             });
 
