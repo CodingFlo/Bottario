@@ -32,8 +32,8 @@
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #000000;
-            color: #e0e0e0;
+            background-color: #0e172a;
+            color: #f0f5ff;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -44,8 +44,8 @@
         }
 
         h1 {
-            color: #ff3333;
-            text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+            color: #64c0ff;
+            text-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
             margin-bottom: 5px;
             opacity: 0;
             animation: fadeInFromTop 0.6s ease-out forwards;
@@ -64,11 +64,25 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            border: 3px solid #ff3333;
-            box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
-            animation: fadeInFromTop 0.6s ease-out 0.2s forwards;
+            border: 3px solid #64c0ff;
+            box-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
+            animation: fadeInFromTop 0.6s ease-out forwards;
             opacity: 0;
         }
+
+        /* New styling for the central image */
+        .top-profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #64c0ff;
+            box-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
+            animation: fadeInFromTop 0.6s ease-out forwards;
+            opacity: 0;
+            margin-bottom: 20px;
+            /* Space between the top image and the main header */
+        }
+
 
         .content-container {
             width: 100%;
@@ -80,19 +94,19 @@
 
         .info-card,
         .link-card {
-            background-color: #1a1a1a;
+            background-color: #1a2333;
             border-radius: 8px;
             padding: 20px;
-            border: 1px solid #ff3333;
-            box-shadow: 0 0 15px rgba(255, 51, 51, 0.5);
+            border: 1px solid #64c0ff;
+            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
             opacity: 0;
             animation: slideInUp 0.5s ease-out forwards;
         }
 
         .info-card h2,
         .info-card h3 {
-            color: #ff3333;
-            border-bottom: 1px solid #ff3333;
+            color: #64c0ff;
+            border-bottom: 1px solid #64c0ff;
             padding-bottom: 5px;
             margin-top: 0;
             margin-bottom: 10px;
@@ -102,49 +116,55 @@
             margin: 0;
             font-size: 1em;
             line-height: 1.4;
-            color: #e0e0e0;
+            color: #f0f5ff;
         }
 
         a {
-            color: #ff6666;
+            color: #99cfff;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         a:hover {
-            color: #ff9999;
+            color: #cce0ff;
         }
     </style>
 </head>
 
 <body>
+    <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/d611052c-56ee-4e6a-9a41-8453dc47a7f0-profile_image-70x70.png"
+        alt="Christario Profilbild" class="top-profile-pic" style="animation-delay: 0s;">
+
     <div class="header-container">
         <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/f7ba1f61-5771-4272-b8fc-9d170c4f9256-profile_image-70x70.png"
             alt="Bot Profilbild" class="profile-pic" style="animation-delay: 0.2s;">
-        <h1 style="margin: 0; animation-delay: 0s;">Über den Bot</h1>
+
+        <h1>Bottario</h1>
+
         <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/7863ec31-8858-47fe-a77e-354bd4535f44-profile_image-70x70.png"
-            alt="Dein Profilbild" class="profile-pic" style="animation-delay: 0.4s;">
+            alt="Ersteller Profilbild" class="profile-pic" style="animation-delay: 0.4s;">
     </div>
+
     <div class="content-container">
 
         <div class="info-card" style="animation-delay: 0.6s;">
             <h2>Was ist das für ein Bot?</h2>
-            <p>Der <strong>Chaos7</strong> Bot ist ein vollautomatisierter Chat-Bot, der speziell für den Twitch-Kanal
-                entwickelt
-                wurde. Er ist dafür zuständig, euch mit den wichtigsten Infos zu versorgen, den Chat zu moderieren und
+            <p>Der <strong>Bottario</strong> ist ein vollautomatisierter Chat-Bot, der speziell für den Twitch-Kanal von
+                Christario entwickelt wurde. Er ist dafür zuständig, euch mit den wichtigsten Infos zu versorgen, den
+                Chat zu moderieren und
                 für unterhaltsame Momente zu sorgen.</p>
         </div>
 
         <div class="info-card" style="animation-delay: 0.8s;">
             <h2>Wer ist der Ersteller?</h2>
-            <p>Der Bot wurde von <strong>Flo_Ced_CoB</strong> in seiner Freizeit entwickelt und wird ständig gewartet
-                und verbessert, um das bestmögliche Erlebnis im Chat zu bieten.</p>
+            <p>Beim Bot handelt es sich um den kleinen Bruder von Chaos7, welcher von <strong>Flo_Ced_CoB</strong> in
+                seiner Freizeit entwickelt und wird ständig wartet um das bestmögliche Erlebnis im Chat zu bieten.</p>
         </div>
 
         <div class="info-card" style="animation-delay: 1.0s;">
             <h2>Timer-Nachrichten</h2>
-            <p>Alle paar Minuten sendet der Bot automatische Nachrichten, die wichtige Informationen oder lustige Fakten
-                enthalten. Diese Nachrichten wiederholen sich in regelmäßigen Abständen.</p>
+            <p>Alle paar Minuten sendet der Bot automatische Nachrichten, die wichtige Informationen oder Werbung
+                für den enthalten. Diese Nachrichten wiederholen sich in regelmäßigen Abständen.</p>
             <br>
             <p style="text-align: center;"><a href="timerMessages.html">Zur Timer-Nachrichten-Liste</a></p>
         </div>
