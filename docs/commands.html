@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Befehle von Chaos7</title>
+    <title>Twitch Bot-Befehle</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
+
         @keyframes fadeInFromTop {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -22,11 +22,11 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+        
         body { 
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #000000; 
-            color: #d0d0d0;
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #0e172a; 
+            color: #f0f5ff; 
             margin: 0; 
             padding: 20px; 
             display: flex; 
@@ -34,14 +34,13 @@
             align-items: center; 
             position: relative;
             overflow-x: hidden;
-            background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
-            background-size: 15px 15px;
+            background-image: radial-gradient(circle at 1px 1px, rgba(100, 192, 255, 0.1) 1px, transparent 0);
+            background-size: 20px 20px;
         }
         
         h1 { 
-            font-family: 'Orbitron', sans-serif;
-            color: #ff3333; 
-            text-shadow: none;
+            color: #64c0ff; 
+            text-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
             margin: 0 0 20px 0;
             opacity: 0; 
             animation: fadeInFromTop 0.6s ease-out forwards; 
@@ -51,11 +50,12 @@
         
         .prefix-container { 
             margin-bottom: 20px; 
-            font-size: 1.1em; 
+            font-size: 1.2em; 
             font-weight: bold;
-            color: #d0d0d0;
-            background-color: #1a1a1a;
-            border: 1px solid #ff3333;
+            color: #f0f5ff; 
+            background-color: #1a2333;
+            border: 1px solid #64c0ff; 
+            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5); 
             border-radius: 8px;
             padding: 10px 20px;
             text-align: center;
@@ -68,12 +68,12 @@
             width: 100%;
             max-width: 800px;
             border-radius: 8px;
-            border: 1px solid #ff3333;
+            border: 1px solid #64c0ff;
             opacity: 0; 
             animation: growIn 0.8s cubic-bezier(0.2, 0.6, 0.3, 1.2) 0.4s forwards; 
             z-index: 2;
-            background-color: #161616;
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.6);
+            background-color: #1a2333;
+            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
         }
 
         .command-table { 
@@ -93,7 +93,7 @@
         }
 
         thead tr {
-            background-color: #800000;
+            background-color: #1f486e;
             opacity: 0; 
             animation: fadeInFromTop 0.5s ease-out 0.8s forwards; 
             display: table-row;
@@ -103,7 +103,7 @@
             padding: 18px 20px; 
             text-align: left; 
             color: #ffffff;
-            border-bottom: 1px solid #ff3333;
+            border-bottom: 1px solid #343e52;
         }
 
         th { 
@@ -113,7 +113,7 @@
             position: relative; 
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-right: 1px solid #ff3333;
+            border-right: 1px solid #343e52;
             text-shadow: none;
         }
         
@@ -126,11 +126,11 @@
         }
 
         th:hover {
-            background-color: #990000;
+            background-color: #2a5a80;
         }
         
         th.sorted { 
-            background-color: #990000;
+            background-color: #2a5a80;
         }
         
         .sort-icon { 
@@ -142,8 +142,8 @@
         }
         
         tbody tr:hover { 
-            background-color: #220000; 
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.8);
+            background-color: #242d40; 
+            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
             transform: scale(1.01);
             transition: all 0.2s ease-in-out;
         }
@@ -184,7 +184,7 @@
                 justify-content: space-around;
                 animation: none;
                 opacity: 1;
-                background-color: #161616; 
+                background-color: #1a2333; 
             }
             th {
                 display: flex;
@@ -194,8 +194,8 @@
                 border-bottom: none;
                 justify-content: center;
                 align-items: center;
-                border-right: 1px solid #ff3333;
-                background-color: #161616;
+                border-right: 1px solid #64c0ff;
+                background-color: #1a2333;
                 color: #ffffff;
             }
             th:first-child,
@@ -204,10 +204,10 @@
                 border-top-right-radius: 0;
             }
             th:hover {
-                background-color: #220000; 
+                background-color: #242d40; 
             }
             th.sorted {
-                background-color: #ff3333; 
+                background-color: #64c0ff; 
             }
             th:last-child {
                 border-right: none;
@@ -227,17 +227,17 @@
             tr {
                 display: block;
                 margin-bottom: 25px;
-                border: 1px solid #ff3333;
+                border: 1px solid #64c0ff;
                 border-radius: 8px;
-                box-shadow: 0 0 20px rgba(255, 51, 51, 0.8);
-                background-color: #161616;
+                box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
+                background-color: #1a2333;
                 padding: 10px;
                 transition: none;
                 animation: slideInUp 0.5s ease-out forwards;
             }
             tr:hover {
                 transform: none;
-                box-shadow: 0 0 20px rgba(255, 51, 51, 0.8);
+                box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
             }
             td {
                 display: block;
@@ -251,14 +251,14 @@
                 display: block;
                 font-weight: bold;
                 text-transform: uppercase;
-                color: #ff3333;
+                color: #64c0ff;
                 margin-bottom: 5px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Befehle von Chaos7</h1>
+    <h1>Twitch Bot-Befehle</h1>
     <div class="prefix-container">
         Bot-Prefix: #
     </div>
