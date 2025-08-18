@@ -6,54 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitch Timer-Nachrichten</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
         @keyframes fadeInFromTop {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #0e172a; 
-            color: #f0f5ff; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0e172a;
+            color: #f0f5ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 1px 1px, rgba(100, 192, 255, 0.1) 1px, transparent 0);
+            background-size: 20px 20px;
         }
-        
-        h1 { 
-            color: #64c0ff; 
+
+        h1 {
+            color: #64c0ff;
             text-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
-            margin-bottom: 5px; 
-            opacity: 0; 
-            animation: fadeInFromTop 0.6s ease-out forwards; 
+            margin: 0 0 25px 0;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInFromTop 0.6s ease-out forwards;
             z-index: 2;
         }
-        
-        .info-container { 
-            margin-bottom: 20px; 
-            font-size: 1.2em; 
-            color: #f0f5ff; 
-            opacity: 0; 
-            animation: fadeInFromTop 0.6s ease-out 0.2s forwards; 
+
+        .info-container {
+            margin-bottom: 25px;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #e0e0e0;
+            background-color: #1a2333;
+            border: 1px solid #64c0ff;
+            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
+            border-radius: 8px;
+            opacity: 0;
+            animation: fadeInFromTop 0.6s ease-out 0.2s forwards;
             z-index: 2;
             text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
         }
         
+        .info-container span {
+            white-space: nowrap;
+        }
+
+        .info-container span::after {
+            content: "|";
+            margin: 0 10px;
+            color: #64c0ff;
+        }
+
+        .info-container span:last-child::after {
+            content: none;
+        }
+
         .messages-container {
             width: 100%;
             max-width: 800px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 25px;
         }
         
         .header-card {
@@ -71,52 +112,96 @@
             animation: slideInUp 0.5s ease-out 0.4s forwards;
         }
 
-        .message-card {
+        .info-card {
             background-color: #1a2333;
             border-radius: 8px;
-            padding: 20px;
+            padding: 30px;
             border: 1px solid #64c0ff;
             box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             opacity: 0;
-        }
-        
-        .message-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(100, 192, 255, 0.7);
-        }
-        
-        .message-card.animated {
             animation: slideInUp 0.5s ease-out forwards;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-        
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(100, 192, 255, 0.7);
+        }
+
+        .info-card h2, .info-card h3 {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #64c0ff;
+            border-bottom: 1px solid #64c0ff;
+            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
         p {
             margin: 0;
             font-size: 1em;
             line-height: 1.4;
             color: #f0f5ff;
         }
+        
+        a {
+            color: #99cfff;
+            text-decoration: none;
+            transition: color 0.4s ease, text-shadow 0.4s ease;
+        }
+
+        a:hover {
+            color: #cce0ff;
+            text-shadow: 0 0 5px #99cfff;
+        }
+
+        @media (max-width: 500px) {
+            .info-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .info-container span::after {
+                content: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Twitch Timer-Nachrichten</h1>
-    <div class="info-container">
-        Intervall: 30 Minuten | Mind. Nachrichten: 30
+    <h1 style="animation-delay: 0.2s;">Timer-Nachrichten von Bottario</h1>
+    <div class="info-container" style="animation-delay: 0.4s;">
+        <span>Intervall: 30 Minuten</span>
+        <span>Mind. Nachrichten: 30</span>
     </div>
-    <div class="messages-container" id="messages-container">
-        <div class="header-card">Nachrichten</div>
+    <div class="messages-container">
+        <div class="header-card" style="animation-delay: 0.6s;">Nachrichten</div>
 
-        <div class="message-card animated" style="animation-delay: 0.5s;">
-            <p>Hier könnte der Link eines Werbepartners stehen! Doch dies ist nicht der Fall. Aber über ein Follow und ein Abo würde er sich dennoch freuen! :D</p>
+        <div class="info-card" style="animation-delay: 0.8s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
         </div>
-        <div class="message-card animated" style="animation-delay: 0.6s;">
-            <p>Du willst wissen, wie viele Christarios Community Wert ist? Dann schau doch mal beim Chrisunity Discord Server vorbei! ;) https://discord.gg/e4yf86V</p>
+        <div class="info-card" style="animation-delay: 0.9500000000000001s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
         </div>
-        <div class="message-card animated" style="animation-delay: 0.7s;">
-            <p>Wusstest du schon, dass du Chris auch auf YouTube finden kannst? Schau doch mal vorbei: https://www.youtube.com/@Christario</p>
+        <div class="info-card" style="animation-delay: 1.1s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
         </div>
-        <div class="message-card animated" style="animation-delay: 0.8s;">
-            <p>Du willst wissen, wann Chris streamt? Dann schau doch mal im Streamplan vorbei! :D https://www.twitch.tv/christario/about</p>
+        <div class="info-card" style="animation-delay: 1.25s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
+        </div>
+        <div class="info-card" style="animation-delay: 1.4s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
+        </div>
+        <div class="info-card" style="animation-delay: 1.5499999999999998s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
+        </div>
+        <div class="info-card" style="animation-delay: 1.6999999999999997s;">
+            <h2>undefined</h2>
+            <p>undefined</p>
         </div>
     </div>
 </body>
