@@ -324,7 +324,7 @@
 
     <div class="content-container">
         <!-- Info-Sektion  -->
-        <div class="info-card" style="animation-delay: 0.3s;">
+        <div class="info-card">
             <h2>Über Chris</h2>
             <p>
                 Willkommen auf der Seite über Chris, welche von Flo_Ced_CoB verwaltet wird, sollten sich Fehler
@@ -335,7 +335,7 @@
             </p>
         </div>
 
-        <div class="info-card" style="animation-delay: 0.4s;">
+        <div class="info-card">
             <h2>Sein Twitch bot</h2>
             <p>
                 Du interessiertst dich für Christarios Bot Twitch-Bot? Hier erhälst du alle wichtigen Details.
@@ -344,7 +344,7 @@
         </div>
 
         <!-- Social-Media-Sektion  -->
-        <div class="info-card" style="animation-delay: 0.5s;">
+        <div class="info-card">
             <h2>Seine Social-Media-Kanäle</h2>
             <div class="social-links">
                 <!-- YouTube -->
@@ -405,10 +405,10 @@
             </div>
         </div>
 
-        <div class="divider" style="animation-delay: 0.7s;"></div>
+        <div class="divider"></div>
 
         <!-- Streamplan-Sektion  -->
-        <div class="info-card" style="animation-delay: 0.7s;">
+        <div class="info-card">
             <h2>Sein Streamplan</h2>
             <img src="Community_Tab_Streamplan.png" alt="Streamplan" id="streamplan" />
             <br>
@@ -417,7 +417,7 @@
         </div>
 
         <!-- Info-Sektion für Streamprojekte -->
-        <div class="info-card project-card" style="animation-delay: 0.9s;">
+        <div class="info-card project-card">
             <h2>Seine Bisherigen Projekte auf YouTube</h2>
             <p>Du magst wissen, was schon alles lets played wurde? Dann schau doch mal hier vorbei!</p>
             <p style="text-align: center;"><a
@@ -425,7 +425,7 @@
                     class="project-link">Zu den Projekten</a></p>
         </div>
 
-        <div class="info-card project-card" style="animation-delay: 0.9s;">
+        <div class="info-card project-card">
             <h2>Sein Impressum</h2>
             <p>Hier ist der Link zu seinem Impressum</p>
             <p style="text-align: center;"><a
@@ -434,10 +434,10 @@
         </div>
 
         <!-- Trennlinie vor FAQ  -->
-        <div class="divider" style="animation-delay: 1.1s;"></div>
+        <div class="divider"></div>
 
         <!-- FAQ-Sektion  und KORRIGIERTER TEXT -->
-        <div class="info-card" id="FAQ-Box" style="animation-delay: 1.3s;">
+        <div class="info-card" id="FAQ-Box">
             <h2>Häufig gestellte Fragen (FAQ)</h2>
             <p class="faq-question">Welche Spiele spielt Chris so?</p>
             <p>
@@ -453,11 +453,14 @@
     </div>
 
     <script>
+        // Führe die Funktion aus, nachdem das DOM geladen wurde.
+        document.addEventListener('DOMContentLoaded', applySequentialAnimations);
+
         // Startet die Animation und das Rendering, wenn die Seite geladen ist
         window.onload = function () {
             resizeCanvas(); // Ruft die Größenanpassung auf
             backgroundAnimation(); // Startet die Hintergrundanimation
-        };
+        };        
     </script>
     <script src="backgroundScript.js"></script>
 </body>
