@@ -54,6 +54,69 @@
    --animation-speed: 0.05s;
 }
 
+@media(prefers-color-scheme: light) {
+   :root {
+      /* Basis-Akzente bleiben: --main-accent: #64b5f6; --second-accent: #2196f3; */
+
+      /* ---------- Grundfarben ---------- */
+      --color-background: #fdfdfd;
+      /* Fast reines Weiß */
+      --color-text: #000000;
+      /* Reines Schwarz für maximalen Kontrast */
+
+      /* ---------- Kartenfarben ---------- */
+      --infoCardBackground: #ffffff;
+      /* Reines Weiß für Kartenbasis */
+      --infoCardBorder: var(--main-accent);
+      /* Standardrand ist jetzt BLAU */
+      --infoCardBorderHover: var(--second-accent);
+      --infoCardBackgroundHover: rgba(33, 150, 243, 0.12);
+      /* Deutlicher blauer Schimmer */
+
+      /* ---------- Schatten & Akzente ---------- */
+      /* Schatten werden sehr intensiv und BLÄULICH gehalten */
+      --shadow-color: rgba(33, 150, 243, 0.3);
+      /* Intensiver blauer Schatten */
+      --shadow-color-strong: rgba(33, 150, 243, 0.5);
+      /* Sehr starker blauer Schatten */
+      --shadow-divider: #e0f2f1;
+      /* Sehr helles, leicht türkises Blau für Trenner */
+      --shadow-inner: rgba(100, 181, 246, 0.2);
+      /* Heller, blauer Glow */
+
+      /* ---------- Linkfarben ---------- */
+      --link-color: var(--second-accent);
+      --link-hover-color: var(--main-accent);
+      --link-hover-shadow: var(--second-accent);
+
+      /* ---------- Canvas / Hintergrund ---------- */
+      --canvas-color: #4fc3f7;
+      /* Leuchtendes Hellblau für Partikel */
+
+      /* ---------- Akzentfarben ---------- */
+      --accent: var(--second-accent);
+      --accent-2: var(--main-accent);
+      --glow-color: var(--accent);
+      --glow-color-2: var(--accent-2);
+
+      /* ---------- Listen / Karten / Buttons ---------- */
+      --card-bg: rgba(255, 255, 255, 0.98);
+      /* Kaum transparent, fast reines Weiß */
+      --list-bg: rgba(33, 150, 243, 0.05);
+      /* Stärkerer blauer Hintergrund */
+      --list-hover-bg: rgba(33, 150, 243, 0.15);
+      --button-bg: var(--accent);
+      --button-bg-hover: var(--accent-2);
+
+      /* ---------- Divider / Trennlinien ---------- */
+      --divider-color: var(--main-accent);
+      /* Divider ist jetzt BLAU */
+
+      /* ---------- Animation ---------- */
+      --animation-speed: 0.05s;
+   }
+}
+
 #background-canvas {
    position: fixed;
    top: 0;
