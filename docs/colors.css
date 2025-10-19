@@ -1,61 +1,57 @@
 :root {
    /* ---------- Grundfarben ---------- */
-   --color-background: #000000;
-   --color-text: #d0d0d0;
+   --color-background: #0d1a26;
+   /* Dunkles Navy */
+   --color-text: #ffffff;
+   /* Reines Weiß */
 
-   /* ---------- Kartenfarben (Cyan-Blau) ---------- */
-   --infoCardBackground: #161a22;
-   /* Sehr dunkles Blau */
-   /* Hintergrund für Karten/Container */
-   --infoCardBorder: #00bcd4;
-   /* Lebhaftes Cyan (Türkis) */
-   /* Standard-Randfarbe */
-   --infoCardBorderHover: #4dd0e1;
-   /* Helleres Cyan */
-   /* Hover-Randfarbe */
-   --infoCardBackgroundHover: rgba(0, 188, 212, 0.1);
-   /* Helles Cyan, leicht transparent */
-   /* Hover-Effekt für Card-Hintergrund */
+   /* Hauptakzentfarben (Hellblau/Cyan) */
+   --main-accent: #64b5f6;
+   /* Helles Himmelsblau */
+   --second-accent: #2196f3;
+   /* Mittleres Blau */
+
+   /* ---------- Kartenfarben ---------- */
+   --infoCardBackground: #1a2938;
+   /* Etwas helleres Navy für Karten */
+   --infoCardBorder: var(--main-accent);
+   --infoCardBorderHover: #90caf9;
+   --infoCardBackgroundHover: rgba(100, 181, 246, 0.15);
+   /* Hellblau, leicht transparent */
 
    /* ---------- Schatten & Akzente ---------- */
-   --shadow-color: rgba(0, 188, 212, 0.5);
-   --shadow-color-strong: rgba(0, 188, 212, 0.7);
-   --shadow-divider: rgba(0, 188, 212, 0.3);
-   --shadow-inner: rgba(0, 188, 212, 0.2);
-   /* Für inner shadow / glows */
+   --shadow-color: rgba(100, 181, 246, 0.5);
+   --shadow-color-strong: rgba(33, 150, 243, 0.7);
+   --shadow-divider: rgba(100, 181, 246, 0.3);
+   --shadow-inner: rgba(100, 181, 246, 0.2);
 
    /* ---------- Linkfarben ---------- */
-   --link-color: #4dd0e1;
-   --link-hover-color: #80deea;
-   --link-hover-shadow: #00bcd4;
+   --link-color: var(--main-accent);
+   --link-hover-color: #90caf9;
+   --link-hover-shadow: var(--main-accent);
 
    /* ---------- Canvas / Hintergrund ---------- */
-   --canvas-color: #00bcd4;
-   /* Cyan für die Partikel */
+   --canvas-color: var(--main-accent);
+   /* Hellblau für die Partikel */
 
    /* ---------- Akzentfarben ---------- */
-   --accent: #00bcd4;
-   /* Haupt-Akzentfarbe (Überschriften, Glow) */
-   --accent-2: #26c6da;
-   /* Sekundärer Akzent (etwas dunkleres Cyan) */
+   --accent: var(--main-accent);
+   --accent-2: var(--second-accent);
    --glow-color: var(--accent);
    --glow-color-2: var(--accent-2);
 
    /* ---------- Listen / Karten / Buttons ---------- */
-   --card-bg: rgba(22, 26, 34, 0.9);
-   /* Dunkles Hintergrundblau mit Transparenz */
-   --list-bg: rgba(0, 188, 212, 0.05);
-   /* leicht transparenter Hintergrund für Listeneinträge */
-   --list-hover-bg: rgba(0, 188, 212, 0.3);
-   --button-bg: var(--accent);
-   --button-bg-hover: var(--accent-2);
+   --card-bg: rgba(26, 41, 56, 0.9);
+   --list-bg: rgba(100, 181, 246, 0.05);
+   --list-hover-bg: rgba(100, 181, 246, 0.3);
+   --button-bg: var(--accent-2);
+   --button-bg-hover: var(--main-accent);
 
    /* ---------- Divider / Trennlinien ---------- */
    --divider-color: var(--infoCardBorder);
 
    /* ---------- Animation ---------- */
    --animation-speed: 0.05s;
-   /* für staggered animationen */
 }
 
 #background-canvas {
