@@ -1,0 +1,75 @@
+:root {
+   /* ---------- Grundfarben ---------- */
+   --color-background: #000000;
+   --color-text: #d0d0d0;
+
+   /* ---------- Kartenfarben (Cyan-Blau) ---------- */
+   --infoCardBackground: #161a22;
+   /* Sehr dunkles Blau */
+   /* Hintergrund für Karten/Container */
+   --infoCardBorder: #00bcd4;
+   /* Lebhaftes Cyan (Türkis) */
+   /* Standard-Randfarbe */
+   --infoCardBorderHover: #4dd0e1;
+   /* Helleres Cyan */
+   /* Hover-Randfarbe */
+   --infoCardBackgroundHover: rgba(0, 188, 212, 0.1);
+   /* Helles Cyan, leicht transparent */
+   /* Hover-Effekt für Card-Hintergrund */
+
+   /* ---------- Schatten & Akzente ---------- */
+   --shadow-color: rgba(0, 188, 212, 0.5);
+   --shadow-color-strong: rgba(0, 188, 212, 0.7);
+   --shadow-divider: rgba(0, 188, 212, 0.3);
+   --shadow-inner: rgba(0, 188, 212, 0.2);
+   /* Für inner shadow / glows */
+
+   /* ---------- Linkfarben ---------- */
+   --link-color: #4dd0e1;
+   --link-hover-color: #80deea;
+   --link-hover-shadow: #00bcd4;
+
+   /* ---------- Canvas / Hintergrund ---------- */
+   --canvas-color: #00bcd4;
+   /* Cyan für die Partikel */
+
+   /* ---------- Akzentfarben ---------- */
+   --accent: #00bcd4;
+   /* Haupt-Akzentfarbe (Überschriften, Glow) */
+   --accent-2: #26c6da;
+   /* Sekundärer Akzent (etwas dunkleres Cyan) */
+   --glow-color: var(--accent);
+   --glow-color-2: var(--accent-2);
+
+   /* ---------- Listen / Karten / Buttons ---------- */
+   --card-bg: rgba(22, 26, 34, 0.9);
+   /* Dunkles Hintergrundblau mit Transparenz */
+   --list-bg: rgba(0, 188, 212, 0.05);
+   /* leicht transparenter Hintergrund für Listeneinträge */
+   --list-hover-bg: rgba(0, 188, 212, 0.3);
+   --button-bg: var(--accent);
+   --button-bg-hover: var(--accent-2);
+
+   /* ---------- Divider / Trennlinien ---------- */
+   --divider-color: var(--infoCardBorder);
+
+   /* ---------- Animation ---------- */
+   --animation-speed: 0.05s;
+   /* für staggered animationen */
+}
+
+#background-canvas {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: -1;
+
+   opacity: 0;
+   transition: opacity 500ms ease-in-out;
+}
+
+.canvas-loaded {
+   opacity: 1 !important;
+}
