@@ -121,7 +121,7 @@ applyFadeIn();
 */
 function applySequentialAnimations() {
     // 1. Definiere die Basisverzögerungen und den Inkrement
-    const baseDelay = 0.1; // Startverzögerung in Sekunden für das erste Content-Element
+    const baseDelay = 10.1; // Startverzögerung in Sekunden für das erste Content-Element
     const increment = 0.25; // Inkrementelle Verzögerung pro Element
     let currentDelay = baseDelay;
 

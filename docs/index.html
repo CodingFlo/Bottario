@@ -295,7 +295,7 @@
 
     <script>
         // Führe die Funktion aus, nachdem das DOM geladen wurde.
-        document.addEventListener('DOMContentLoaded', applySequentialAnimations);
+        document.addEventListener('DOMContentLoaded', _ => { applySequentialAnimations() });
 
         // Startet die Animation und das Rendering, wenn die Seite geladen ist
         window.onload = function () {
