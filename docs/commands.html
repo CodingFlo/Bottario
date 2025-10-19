@@ -4,214 +4,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twitch Bot-Befehle</title>
+    <title>Befehle von Chaos7</title>
+     
+    <link rel="stylesheet" href="colors.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+        /* 
+        ===========================
+                Animation
+        =========================== 
+        */
         @keyframes fadeInFromTop {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes growIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: #0e172a; 
-            color: #f0f5ff; 
-            margin: 0; 
-            padding: 20px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+
+        /* 
+        ===========================
+                Grundfeld
+        =========================== 
+        */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
+            overflow-y: auto;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 1px 1px, rgba(100, 192, 255, 0.1) 1px, transparent 0);
-            background-size: 20px 20px;
         }
-        
-        h1 { 
-            color: #64c0ff; 
-            text-shadow: 0 0 10px rgba(100, 192, 255, 0.5);
+
+        #background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* 
+        ===========================
+                Überschrift
+        =========================== 
+        */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--canvas-color);
+            text-shadow: none;
             margin: 0 0 20px 0;
-            opacity: 0; 
-            animation: fadeInFromTop 0.6s ease-out forwards; 
+            opacity: 0;
+            animation: fadeInFromTop 0.6s ease-out forwards;
             z-index: 2;
             text-align: center;
         }
-        
-        .prefix-container { 
-            margin-bottom: 20px; 
-            font-size: 1.2em; 
+
+        /* 
+        ===========================
+            Prefix / Infofeld
+        =========================== 
+        */
+        .prefix-container {
+            margin-bottom: 20px;
+            font-size: 1.1em;
             font-weight: bold;
-            color: #f0f5ff; 
-            background-color: #1a2333;
-            border: 1px solid #64c0ff; 
-            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5); 
+            color: var(--color-text);
+            background-color: var(--infoCardBackground);
+            border: 1px solid var(--infoCardBorder);
             border-radius: 8px;
             padding: 10px 20px;
             text-align: center;
-            opacity: 0; 
-            animation: fadeInFromTop 0.6s ease-out 0.2s forwards; 
+            opacity: 0;
+            animation: fadeInFromTop 0.6s ease-out 0.2s forwards;
             z-index: 2;
         }
-        
+
+        /* 
+        ===========================
+                Table
+        =========================== 
+        */
         .command-table-wrapper {
             width: 100%;
             max-width: 800px;
             border-radius: 8px;
-            border: 1px solid #64c0ff;
-            opacity: 0; 
-            animation: growIn 0.8s cubic-bezier(0.2, 0.6, 0.3, 1.2) 0.4s forwards; 
+            border: 1px solid var(--infoCardBorder);
+            opacity: 0;
+            animation: growIn 0.8s cubic-bezier(0.2, 0.6, 0.3, 1.2) 0.4s forwards;
             z-index: 2;
-            background-color: #1a2333;
-            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
+            background-color: var(--infoCardBackground);
+            box-shadow: 0 0 20px var(--shadow-color);
+            position: relative;
         }
 
-        .command-table { 
-            width: 100%; 
-            border-collapse: collapse; 
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
             background-color: transparent;
         }
-        
-        thead, tbody {
+
+        thead,
+        tbody {
             border: none;
             box-shadow: none;
             background-color: transparent;
         }
 
-        thead {
-            z-index: 10;
-        }
-
         thead tr {
-            background-color: #1f486e;
-            opacity: 0; 
-            animation: fadeInFromTop 0.5s ease-out 0.8s forwards; 
+            opacity: 0;
+            animation: fadeInFromTop 0.5s ease-out 0.8s forwards;
             display: table-row;
         }
 
-        th, td { 
-            padding: 18px 20px; 
-            text-align: left; 
-            color: #ffffff;
-            border-bottom: 1px solid #64c0ff;
+        thead tr th {
+            background-color: var(--infoCardBorder);
+            transition: background-color 250ms;
         }
 
-        th { 
-            font-weight: bold; 
-            cursor: pointer; 
-            user-select: none; 
-            position: relative; 
+        thead tr th:hover {
+            background-color: var(--infoCardBorderHover);
+        }
+
+        th,
+        td {
+            padding: 18px 20px;
+            text-align: left;
+            color: var(--color-text);
+            border-bottom: 1px solid var(--infoCardBorder);
+        }
+
+        th {
+            width: fit-content;
+            padding-right: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-right: 1px solid #64c0ff;
-            text-shadow: none;
+            border-right: 1px solid var(--infoCardBorder);
         }
-        
+
         th:first-child {
             border-top-left-radius: 7px;
         }
+
         th:last-child {
             border-right: none;
             border-top-right-radius: 7px;
         }
 
-        th:hover {
-            background-color: #2a5a80;
-        }
-        
-        th.sorted { 
-            background-color: #2a5a80;
-        }
-        
-        .sort-icon { 
-            position: absolute; 
-            right: 20px; 
+        .sort-icon {
+            position: absolute;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: inherit; 
+            color: inherit;
+            margin-left: 10px;
         }
-        
-        tbody tr:hover { 
-            background-color: #242d40; 
-            box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
+
+        tbody tr:hover {
+            background-color: color-mix(in srgb, var(--infoCardBackground) 80%, var(--infoCardBorder) 20%);
+            box-shadow: 0 0 20px var(--shadow-color-strong);
             transform: scale(1.01);
             transition: all 0.2s ease-in-out;
         }
-        
-        #sort-command { 
-            width: 25%; 
-        }
-        #sort-shortcut { 
-            width: 25%; 
-        }
-        
+
         tr {
-            opacity: 0; 
-        }
-        tr.animated { 
-            animation: slideInUp 0.5s ease-out forwards; 
+            opacity: 0;
         }
 
+        tr.animated {
+            animation: slideInUp 0.5s ease-out forwards;
+        }
+
+        /* 
+        ===========================
+                Mobile Ansicht
+        =========================== 
+        */
         @media (max-width: 600px) {
             .command-table-wrapper {
                 border: none;
-                box-shadow: none;
-                background-color: transparent;
                 border-radius: 0;
             }
+
             .command-table {
                 background-color: transparent;
             }
-            
+
             thead {
                 display: block;
                 margin-bottom: 25px;
                 border: none;
                 box-shadow: none;
             }
+
             thead tr {
                 display: flex;
                 justify-content: space-around;
+                align-items: center;
+                align-content: center;
+                flex-wrap: wrap;
                 animation: none;
                 opacity: 1;
-                background-color: #1a2333; 
+                background-color: var(--infoCardBackground);
+                border: 1px solid var(--infoCardBorder);
+                border-radius: 8px;
+                box-shadow: 0 0 20px var(--shadow-color);
             }
+
             th {
                 display: flex;
-                flex: 1;
                 text-align: center;
                 padding: 15px 10px;
                 border-bottom: none;
                 justify-content: center;
                 align-items: center;
-                border-right: 1px solid #64c0ff;
-                background-color: #1a2333;
-                color: #ffffff;
-            }
-            th:first-child,
-            th:last-child {
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-            }
-            th:hover {
-                background-color: #242d40; 
-            }
-            th.sorted {
-                background-color: #64c0ff; 
-            }
-            th:last-child {
                 border-right: none;
+                background-color: var(--infoCardBackground);
+                color: var(--color-text);
             }
+
+            th:not(:first-child) {
+                border-left: 1px solid var(--infoCardBorder);
+            }
+
+            th:first-child {
+                flex-grow: 1.5;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            th:nth-child(2) {
+                flex-grow: 1;
+            }
+
+            th:last-child {
+                flex-grow: 2.5;
+                border-right: none;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            th:hover {
+                background-color: var(--list-hover-bg);
+            }
+
             .sort-icon {
                 position: static;
                 transform: none;
@@ -224,41 +299,74 @@
                 box-shadow: none;
                 background-color: transparent;
             }
+
             tr {
                 display: block;
                 margin-bottom: 25px;
-                border: 1px solid #64c0ff;
+                border: 1px solid var(--infoCardBorder);
                 border-radius: 8px;
-                box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
-                background-color: #1a2333;
+                box-shadow: 0 0 20px var(--shadow-color);
+                background-color: var(--infoCardBackground);
                 padding: 10px;
                 transition: none;
                 animation: slideInUp 0.5s ease-out forwards;
             }
+
             tr:hover {
                 transform: none;
-                box-shadow: 0 0 15px rgba(100, 192, 255, 0.5);
+                box-shadow: 0 0 20px var(--shadow-color-strong);
             }
+
             td {
                 display: block;
-                text-align: left;
-                padding: 10px 0;
-                border-bottom: none;
-                word-break: break-word;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: var(--infoCardBorder);
+                margin-bottom: 5px;
             }
+
             td::before {
                 content: attr(data-label);
                 display: block;
                 font-weight: bold;
                 text-transform: uppercase;
-                color: #64c0ff;
+                color: var(--infoCardBorder);
                 margin-bottom: 5px;
+            }
+        }
+
+        @media (max-width: 268px) {
+            th {
+                width: 100%;
+            }
+
+            th:first-child {
+                flex-grow: 1.5;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            th:nth-child(2) {
+                flex-grow: 1;
+                border-top: 1px solid var(--infoCardBorder);
+                border-left: none;
+            }
+
+            th:last-child {
+                flex-grow: 2.5;
+                border-top: 1px solid var(--infoCardBorder);
+                ;
+                border-left: none;
+                border-right: none;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Befehle für Bottario</h1>
+    <!-- Canvas für den animierten Hintergrund -->
+    <canvas id="background-canvas"></canvas>
+
+    <h1>Befehle von Chaos7</h1>
     <div class="prefix-container">
         Bot-Prefix: #
     </div>
@@ -266,13 +374,13 @@
         <table class="command-table">
             <thead>
                 <tr>
-                    <th id="sort-command" data-sort-order="asc">Befehl <span class="sort-icon"></span></th>
+                    <th id="sort-command" data-sort-order="asc" class="test">Befehl <span class="sort-icon"></span></th>
                     <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
                     <th id="sort-description" data-sort-order="asc">Beschreibung<span class="sort-icon"></span></th>
                 </tr>
             </thead>
             <tbody id="command-table-body">
-
+    
                 <tr>
                     <td data-label="Befehl">agb</td>
                     <td data-label="Kürzel">-</td>
@@ -426,77 +534,92 @@
             </tbody>
         </table>
     </div>
+     
     <script>
+        // Startet die Animation und die Initialisierung der Nachrichten
+        window.onload = function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            resizeCanvas(); // Ruft die Größenanpassung auf
+            backgroundAnimation(); // Startet die Hintergrundanimation
+            // Startet die Reihen-Animation, nachdem alles geladen ist
+            applyRowAnimation(0.8);
+        };
+
+        // Funktion für die Animation der Zeilen
         function applyRowAnimation(delay = 0.8) {
             const rows = document.querySelectorAll('#command-table-body tr');
             rows.forEach((row, index) => {
                 row.classList.remove('animated');
-                void row.offsetWidth; // Trigger reflow
+                void row.offsetWidth;
                 row.classList.add('animated');
-                row.style.animationDelay = `${delay + index * 0.05}s`;
+                row.style.animationDelay = (delay + index * 0.05) + 's';
             });
         }
-        
-        document.addEventListener('DOMContentLoaded', () => applyRowAnimation(0.8));
 
-        let currentSortColumn = null;
+        // JavaScript für die Sortierfunktion
+        const tableBody = document.getElementById('command-table-body');
+        const headers = document.querySelectorAll('th[id^="sort-"]');
+        let sortedColumnId = null;
         let sortOrder = 'asc';
 
-        function sortTableByColumn(columnId) {
-            const tableBody = document.getElementById('command-table-body');
-            const header = document.getElementById(columnId);
-            
-            if (currentSortColumn !== columnId) {
-                sortOrder = 'asc';
-                if (currentSortColumn) {
-                    document.getElementById(currentSortColumn).classList.remove('sorted');
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const columnId = header.id;
+
+                if (sortedColumnId === columnId) {
+                    sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+                } else {
+                    sortOrder = 'asc';
+                    if (sortedColumnId) {
+                        document.getElementById(sortedColumnId).classList.remove('sorted');
+                    }
                 }
-            } else {
-                sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-            }
-            currentSortColumn = columnId;
-            header.classList.add('sorted');
 
-            const columnIndex = header.cellIndex;
-            const rows = Array.from(tableBody.rows);
-            
-            const sortedRows = rows.sort((a, b) => {
-                const aText = a.cells[columnIndex].textContent.toLowerCase();
-                const bText = b.cells[columnIndex].textContent.toLowerCase();
+                sortedColumnId = columnId;
+                header.classList.add('sorted');
 
-                let comparison = 0;
+                const columnIndex = header.cellIndex;
+                const rows = Array.from(tableBody.rows);
 
-                if (columnId === 'sort-shortcut') {
-                    const aIsSpecial = !/^[a-z0-9]/.test(aText);
-                    const bIsSpecial = !/^[a-z0-9]/.test(bText);
+                const sortedRows = rows.sort((a, b) => {
+                    const aText = a.cells[columnIndex].textContent.trim().toLowerCase();
+                    const bText = b.cells[columnIndex].textContent.trim().toLowerCase();
 
-                    if (aIsSpecial && !bIsSpecial) {
-                        comparison = 1;
-                    } else if (!aIsSpecial && bIsSpecial) {
-                        comparison = -1;
+                    let comparison = 0;
+                    if (columnId === 'sort-shortcut') {
+                        const aIsSpecial = !/^[a-z0-9]/.test(aText);
+                        const bIsSpecial = !/^[a-z0-9]/.test(bText);
+
+                        if (aIsSpecial && !bIsSpecial) {
+                            comparison = -1;
+                        } else if (!aIsSpecial && bIsSpecial) {
+                            comparison = 1;
+                        } else {
+                            comparison = aText.localeCompare(bText);
+                        }
                     } else {
                         comparison = aText.localeCompare(bText);
                     }
-                } else {
-                    comparison = aText.localeCompare(bText);
+
+                    return sortOrder === 'asc' ? comparison : -comparison;
+                });
+
+                while (tableBody.firstChild) {
+                    tableBody.removeChild(tableBody.firstChild);
                 }
+                sortedRows.forEach(row => tableBody.appendChild(row));
 
-                return sortOrder === 'asc' ? comparison : -comparison;
+                applyRowAnimation(0);
+
+                document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
+                if (header.querySelector('.sort-icon')) {
+                    header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
+                }
             });
-
-            sortedRows.forEach(row => tableBody.appendChild(row));
-            
-            applyRowAnimation(0);
-
-            document.querySelectorAll('.sort-icon').forEach(icon => icon.textContent = '');
-            if (header.querySelector('.sort-icon')) {
-                 header.querySelector('.sort-icon').textContent = sortOrder === 'asc' ? ' ▲' : ' ▼';
-            }
-        }
-
-        document.getElementById('sort-command').onclick = () => sortTableByColumn('sort-command');
-        document.getElementById('sort-shortcut').onclick = () => sortTableByColumn('sort-shortcut');
-        document.getElementById('sort-description').onclick = () => sortTableByColumn('sort-description');
+        });
     </script>
+        
+    <script src="backgroundScript.js"></script>
 </body>
 </html>
