@@ -416,6 +416,13 @@
             <p><i>*Änderungen, wie Streamausfall, werden auf Discord bescheid gegeben</i></p>
         </div>
 
+        <div class="info-card">
+            <h2>Offene Streamwetten</h2>
+            <div id="schedule-container">
+                <!-- Dynamisch durch JavaScript generiert -->
+            </div>
+        </div>
+
         <!-- Info-Sektion für Streamprojekte -->
         <div class="info-card project-card">
             <h2>Seine Bisherigen Projekte auf YouTube</h2>
@@ -425,20 +432,9 @@
                     class="project-link">Zu den Projekten</a></p>
         </div>
 
-        <div class="info-card project-card">
-            <h2>Sein Impressum</h2>
-            <p>Hier ist der Link zu seinem Impressum</p>
-            <p style="text-align: center;"><a
-                    href=https://drive.google.com/file/d/1LyG64flQCaMT_dxjQZwTUkeSz6GWcuhS/view"
-                    class="project-link">Zum Impressum</a></p>
-        </div>
-
-        <!-- Trennlinie vor FAQ  -->
-        <div class="divider"></div>
-
         <!-- FAQ-Sektion  und KORRIGIERTER TEXT -->
         <div class="info-card" id="FAQ-Box">
-            <h2>Häufig gestellte Fragen (FAQ)</h2>
+            <h2>Offene Stream-Wetten</h2>
             <p class="faq-question">Welche Spiele spielt Chris so?</p>
             <p>
                 Sein Hauptaugenmerk liegt auf <strong>Nintendo-Spielen</strong> (sowohl auf seinem Twitch-Kanal als auch
@@ -452,7 +448,54 @@
         </div>
     </div>
 
+    <!-- Trennlinie vor FAQ  -->
+    <div class="divider"></div>
+
+    <!-- FAQ-Sektion  und KORRIGIERTER TEXT -->
+    <div class="info-card" id="FAQ-Box">
+        <h2>Häufig gestellte Fragen (FAQ)</h2>
+        <p class="faq-question">Welche Spiele spielt Chris so?</p>
+        <p>
+            Sein Hauptaugenmerk liegt auf <strong>Nintendo-Spielen</strong> (sowohl auf seinem Twitch-Kanal als auch
+            auf seinem Haupt-YouTube-Kanal). Dennoch streamt/let's played er gelegentlich auch Horror-Games, Anno,
+            Final Fantasy, etc. auf Twitch sowie seinen Nebenkanälen.
+        </p>
+
+        <p class="faq-question">Wo kann man Spiele für Streams vorschlagen?</p>
+        <p>Spielvorschläge kann man ihm über seinen <strong>Discord Server</strong> schicken, wo es eine eigenen
+            Chat für Vorschläge gibt.</p>
+    </div>
+    </div>
+
     <script>
+        const streamsBets = [
+            "24h Stream (2 mal 12h Stream)",
+            "10h Steinstream (wurde geändert zu einem 2 mal 12 Stream)",
+        ];
+
+        // Funktion, die den Streamplan rendert
+        function renderStreamBets() {
+            const container = document.getElementById('schedule-container');
+            container.innerHTML = ''; // Container leeren, um Duplikate zu vermeiden
+
+            if (streamsBets.length == 0) {
+                entryDiv.innerHTML = `
+                    <span class="schedule-day">Keine offene Streamwette</span>
+                `;
+                container.appendChild(entryDiv);
+                return;
+            }
+
+            streamsBets.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'schedule-entry';
+                entryDiv.innerHTML = `
+                    <span class="schedule-day">${entry}</span>
+                `;
+                container.appendChild(entryDiv);
+            });
+        }
+
         // Führe die Funktion aus, nachdem das DOM geladen wurde.
         document.addEventListener('DOMContentLoaded', _ => { applySequentialAnimations() });
 
@@ -460,6 +503,8 @@
         window.onload = function () {
             resizeCanvas(); // Ruft die Größenanpassung auf
             backgroundAnimation(); // Startet die Hintergrundanimation
+
+            renderStreamBets(); // Rendert die Streamwetten
         };        
     </script>
     <script src="backgroundScript.js"></script>
