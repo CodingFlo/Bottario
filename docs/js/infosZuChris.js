@@ -1,6 +1,7 @@
 const streamsBets = [
-    "24h Stream (2 mal 12h Stream)",
+    "24h Stream durch Mario Party (2 mal 12h Stream)",
     "10h Steinstream (wurde geändert zu einem 2 mal 12h Stream)",
+    "24h Stream durch Smash Bros (2 mal 12h Stream)",
 ];
 
 // Funktion, die den Streamplan rendert
