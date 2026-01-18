@@ -1,213 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Befehle von Bottario</title>
+    <title>Lade Inhalte...</title>
+    <script src="loader.js" defer></script>
+    <style>
+        /* Schlichter, dunkler Ladebildschirm */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a1a1a;
+            color: white;
+            font-family: sans-serif;
+        }
 
-    <meta name="description" content="Alle Commands, Shortcuts und Erklärungen für den Bottario Twitch Bot.">
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://codingflo.github.io/Chaos7_Bot" />
-    <meta property="og:title" content="Commands – Bottario Bot"/>
-    <meta property="og:description" content="Alle Commands, Shortcuts und Erklärungen für den Bottario Twitch Bot." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://codingflo.github.io/Bottario_Bot" />
-    <meta property="og:image" content="https://static-cdn.jtvnw.net/jtv_user_pictures/f7ba1f61-5771-4272-b8fc-9d170c4f9256-profile_image-70x70.png" />
-    <meta name="twitter:card" content="summary" />
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
 
-    <link rel="stylesheet" href="css/colors.css" />
-    <link rel="stylesheet" href="css/commands.css" />
-    <link rel="stylesheet" href="css/shared.css" />
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #0099ff;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+
+            0%,
+            80%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            40% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Canvas für den animierten Hintergrund -->
-    <canvas id="background-canvas"></canvas>
-
-    <h1>Befehle von Bottario</h1>
-
-    <div class="header-button-wrapper fade-in">
-        <a href="index.html" class="home-button">
-            ← Zurück zur Startseite
-        </a>
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
-    
-    <div class="prefix-container">
-        Bot-Prefix: #
-    </div>
-    
-    <div class="command-table-wrapper">
-        <table class="command-table">
-            <thead>
-                <tr>
-                    <th id="sort-command" data-sort-order="asc" class="test">Befehl <span class="sort-icon"></span></th>
-                    <th id="sort-shortcut" data-sort-order="asc">Kürzel <span class="sort-icon"></span></th>
-                    <th id="sort-description" data-sort-order="asc">Beschreibung<span class="sort-icon"></span></th>
-                </tr>
-            </thead>
-            <tbody id="command-table-body">
-    
-                <tr>
-                    <td data-label="Befehl">agb</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl mit dem man darüber aufklärt, dass Chris gerade Unwahrheiten erzählt, aber trotzdem Recht hat laut seinen AGBs</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">chatlock</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Informationsbefehl mit dem man darüber aufklärt wird um was es sich bei einer Chatlock handelt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">chatshop</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Befehl der mehr Informationen bezüglich der Chatlock (!chatlock) gibt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">cheater</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl mit dem man Chris darüber aufmerksam macht, dass er cheatet</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">chrisinfos</td>
-                    <td data-label="Kürzel">chris</td>
-                    <td data-label="Beschreibung">Ein Befehl, der alle Infos zu Chris auflistet.</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">discord</td>
-                    <td data-label="Kürzel">dc</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">followage</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem angezeigt wird, wie lange ein User Chris schon folgt, bzw. ob ein User Chris folgt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">freundescode</td>
-                    <td data-label="Kürzel">fc</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man den Switch Freundescode von Chris bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">heiligemiesmuschel</td>
-                    <td data-label="Kürzel">hmm</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man den Bot eine Frage stellen kann und eine random Antwort erhält</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">insta</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man den Link zu Chris seinem Instagram-Account bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">lurk</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man Chris mitteilen kann, dass man in den Lurk-Modus wechselt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">of</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl mit dem man den Link zu Chris seinem Discord-Server bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">peter</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl mit dem aufgeklärt wird, warum Chris oft Peter schreit oder es nicht böse gemeint ist</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">setgame</td>
-                    <td data-label="Kürzel">game</td>
-                    <td data-label="Beschreibung">Ein Befehl rein für Mods, mit dem das gestreamte Game geändert werden kann</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">settitle</td>
-                    <td data-label="Kürzel">title</td>
-                    <td data-label="Beschreibung">Ein Befehl rein für Mods, mit dem der Streamtitel geändert werden kann</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">shoutout</td>
-                    <td data-label="Kürzel">so</td>
-                    <td data-label="Beschreibung">Ein Befehl rein für Mods um jemanden einen Shoutout zu geben</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">spoilertario</td>
-                    <td data-label="Kürzel">spoiler</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl mit dem man darüber aufklärt, dass Chris wieder etwas gespoilert hat.</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">streamplan</td>
-                    <td data-label="Kürzel">stp</td>
-                    <td data-label="Beschreibung">Ein Informationsbefehl, der zum Streamplan verlinkt.</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">streik</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Spaßbefehl, der ein Zeichen setzt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">test</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Ein Befehl mit dem man den testen kann, ob der Bot auf Befehle reagiert oder ein Fehler vorliegt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">tiktok</td>
-                    <td data-label="Kürzel">tt</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris' TikTok Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">twitter</td>
-                    <td data-label="Kürzel">x</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris' X/Twitter Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">unlurk</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man mitteilen kann, dass man nun nicht mehr lurkt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">vod</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris' VOD Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">yta</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris seinen Anno Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">yt</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris' YouTube Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">yth</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris seinen Horror YouTube Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">yto</td>
-                    <td data-label="Kürzel">-</td>
-                    <td data-label="Beschreibung">Befehl mit dem man den Link direkt zu Chris' seinen Pokemon Opening Kanal bekommt</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">infos</td>
-                    <td data-label="Kürzel">info</td>
-                    <td data-label="Beschreibung">Ein Befehl, der einige Informationen bezüglich Bottario gibt.</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">commands</td>
-                    <td data-label="Kürzel">command</td>
-                    <td data-label="Beschreibung">Ein Befehl, der alle verfügbaren Befehle auflistet.</td>
-                </tr>
-                <tr>
-                    <td data-label="Befehl">timermessages</td>
-                    <td data-label="Kürzel">tm</td>
-                    <td data-label="Beschreibung">Ein Befehl, der alle verfügbaren Timer-Nachrichten auflistet.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <script src="js/backgroundScript.js"></script>
-    <script src="js/applySequentialAnimations.js"></script>
-    <script src="js/commands.js"></script>
 </body>
+
 </html>

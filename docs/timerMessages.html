@@ -1,72 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timer-Nachrichten von Chaos7</title>
+    <title>Lade Inhalte...</title>
+    <script src="loader.js" defer></script>
+    <style>
+        /* Schlichter, dunkler Ladebildschirm */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #1a1a1a;
+            color: white;
+            font-family: sans-serif;
+        }
 
-    <link rel="stylesheet" href="css/colors.css" />
-    <link rel="stylesheet" href="css/timerMessages.css">
-    <link rel="stylesheet" href="css/shared.css" />
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #0099ff;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+
+            0%,
+            80%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            40% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- Canvas für den animierten Hintergrund -->
-    <canvas id="background-canvas"></canvas>
-
-    <h1>Timer-Nachrichten von Chaos7</h1>
-    
-    <div class="header-button-wrapper fade-in">
-        <a href="index.html" class="home-button">
-            ← Zurück zur Startseite
-        </a>
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
     </div>
-
-    <div class="info-container">
-        <span>Intervall: 30 Minuten</span>
-        <span>Mind. Nachrichten: 20</span>
-    </div>
-    <div class="messages-container">
-        <div class="header-card">Nachrichten</div>
-        
-        <div class="info-card">
-            <h2>Follow und Abo Erinnerung</h2>
-            <p>Hier könnte der Link eines Werbepartners stehen! Doch dies ist nicht der Fall. Aber über ein Follow und ein Abo würde sich Chris dennoch freuen! :D</p>
-        </div>
-        <div class="info-card">
-            <h2>Discord-Server</h2>
-            <p>Du willst wissen, wie viel Christarios Community Wert ist? Dann schau doch mal beim Chrisunity Discord Server vorbei! ;) https://discord.gg/e4yf86V</p>
-        </div>
-        <div class="info-card">
-            <h2>Infos zu Chris</h2>
-            <p>Du willst wissen, wer Chris genau ist? Dann nutze doch gerne mal #chris ;)</p>
-        </div>
-        <div class="info-card">
-            <h2>Informationen zum Bot</h2>
-            <p>Du kennst mich noch nicht und willst mehr über mich als Bot erfahren? Dann schau doch hier vorbei! :D https://codingflo.github.io/Bottario/</p>
-        </div>
-        <div class="info-card">
-            <h2>YouTube-Kanal</h2>
-            <p>Wusstest du schon, dass du Chris auch auf YouTube finden kannst? Schau doch mal vorbei: https://www.youtube.com/@Christario</p>
-        </div>
-        <div class="info-card">
-            <h2>Streamplan</h2>
-            <p>Du willst wissen, wann Chris streamt? Dann schau doch mal im Streamplan vorbei! :D https://codingflo.github.io/Bottario/infosZuChris.html</p>
-        </div>
-        <div class="info-card">
-            <h2>Alle Commands</h2>
-            <p>Bip bop, ich bin ein Bot und du willst wissen was ich so kann? Dann nutze doch mal #commands :D</p>
-        </div>
-        <div class="info-card">
-            <h2>Alle infos zum Bot</h2>
-            <p>Du willst wissen wie viel ich Wert bin? Dann nutze doch mal #infos aus um alle wichtigen Informationen zu mir zu erhalten! :P</p>
-        </div>
-        <div class="info-card">
-            <h2>Alle Timer-Nachrichten</h2>
-            <p>Du wunderst dich welche Nachrichten ich in regelmäßigen Zeitabständen sende? Dann nutze doch mal #tm im Chat ;)</p>
-        </div>
-    </div>
-    <script src="js/backgroundScript.js"></script>
-    <script src="js/applySequentialAnimations.js" defer></script>
 </body>
+
 </html>
