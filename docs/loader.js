@@ -14,7 +14,7 @@
     // 2. Automatische Erkennung des aktuellen Dateinamens
     // window.location.pathname gibt z.B. "/test.html" zurück.
     // Wir extrahieren nur den letzten Teil: "test.html"
-    const currentFileName = window.location.pathname.split('/').pop() || 'index.html';
+    const currentFileName = window.location.pathname.split('/').pop();
 
     const targetUrl = baseUrl + currentFileName;
 
