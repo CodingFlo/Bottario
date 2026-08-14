@@ -36,19 +36,30 @@
             const remoteDoc = parser.parseFromString(htmlContent, 'text/html');
 
             // 3. Asset-Pfad-Korrektur für Ressourcen (CSS, JS, Bilder etc.) -> bleiben auf dem Heimserver
-            const fixAssetPaths = (selector, attr) => {
+            const fixPaths = (selector, attr) => {
                 remoteDoc.querySelectorAll(selector).forEach(el => {
                     const val = el.getAttribute(attr);
-                    if (val && !/^(https?:|data:|#|\/\/)/.test(val)) {
+                    if (!val || /^(https?:|data:|#|\/\/)/.test(val)) return;
+
+                    // Falls es ein Link (a) ist und auf den Heimserver zeigt
+                    if (selector === 'a' && val.includes("chaos7.ddns.net")) {
+                        // Extrahiere den Dateinamen aus dem alten Pfad
+                        const fileName = val.split('/').pop();
+                        // Leite auf GitHub um (Passe die URL unten an!)
+                        el.setAttribute('href', "https://codingflo.github.io/TarioBot/" + fileName);
+                    }
+                    // Für alle anderen Assets (CSS, JS, Bilder) -> Heimserver beibehalten
+                    else {
                         el.setAttribute(attr, new URL(val, baseUrl).href);
                     }
                 });
             };
 
-            fixAssetPaths('link', 'href');
-            fixAssetPaths('script', 'src');
-            fixAssetPaths('img', 'src');
-            fixAssetPaths('source', 'src');
+            fixPaths('link', 'href');
+            fixPaths('script', 'src');
+            fixPaths('img', 'src');
+            fixPaths('source', 'src');
+            fixPaths('a', 'href');
 
             // Spezielle Pfad-Korrektur für Anchor-Hrefs -> leiten auf GitHub um
             remoteDoc.querySelectorAll('a').forEach(el => {
