@@ -1,8 +1,7 @@
 (function () {
     const botName = "tariobot"
 
-    // 1. Verschleierte Basis-Konfiguration
-    // Entspricht: https://chaos7.ddns.net:3000/c7/websites/
+    // 1. Verschleierte Basis-Konfiguration für den Heimserver (für Inhalte/Assets)
     const _parts = [
         "https",
         "://" + "chaos7",
@@ -11,10 +10,14 @@
     ];
     const baseUrl = _parts.join('');
 
+    // GitHub-Konfiguration für die Weiterleitung von Links (Anchor-Hrefs)
+    // Passe diesen Teil an deinen GitHub-Benutzername und Repository-Namen an (z.B. GitHub Pages oder direkte Repo-Links)
+    const githubBaseUrl = "https://DEIN-BENUTZERNAME.github.io/DEIN-REPO/";
+    // Alternativ, falls es direkt auf die Dateiliste oder den Code im Repo zeigen soll:
+    // const githubBaseUrl = "https://github.com/DEIN-BENUTZERNAME/DEIN-REPO/blob/main/";
+
     // 2. Automatische Erkennung des aktuellen Dateinamens
-    // window.location.pathname gibt z.B. "/test.html" zurück.
-    // Wir extrahieren nur den letzten Teil: "test.html"
-    const currentFileName = window.location.pathname.split('/').pop();
+    const currentFileName = window.location.pathname.split('/').pop() || "index.html";
 
     const targetUrl = baseUrl + currentFileName;
 
@@ -32,23 +35,29 @@
             const parser = new DOMParser();
             const remoteDoc = parser.parseFromString(htmlContent, 'text/html');
 
-            // 3. Asset-Pfad-Korrektur (Relative -> Absolute)
-            // Wichtig, damit CSS/JS vom Server geladen werden
-            const fixPaths = (selector, attr) => {
+            // 3. Asset-Pfad-Korrektur für Ressourcen (CSS, JS, Bilder etc.) -> bleiben auf dem Heimserver
+            const fixAssetPaths = (selector, attr) => {
                 remoteDoc.querySelectorAll(selector).forEach(el => {
                     const val = el.getAttribute(attr);
-                    // Nur relative Pfade umbiegen (die nicht mit http/https/data beginnen)
                     if (val && !/^(https?:|data:|#|\/\/)/.test(val)) {
                         el.setAttribute(attr, new URL(val, baseUrl).href);
                     }
                 });
             };
 
-            fixPaths('link', 'href');
-            fixPaths('script', 'src');
-            fixPaths('img', 'src');
-            fixPaths('a', 'href');
-            fixPaths('source', 'src');
+            fixAssetPaths('link', 'href');
+            fixAssetPaths('script', 'src');
+            fixAssetPaths('img', 'src');
+            fixAssetPaths('source', 'src');
+
+            // Spezielle Pfad-Korrektur für Anchor-Hrefs -> leiten auf GitHub um
+            remoteDoc.querySelectorAll('a').forEach(el => {
+                const val = el.getAttribute('href');
+                if (val && !/^(https?:|data:|#|\/\/)/.test(val)) {
+                    // Relative Links auf der geladenen Seite zeigen nun auf GitHub
+                    el.setAttribute('href', new URL(val, githubBaseUrl).href);
+                }
+            });
 
             // 4. Seite komplett ersetzen
             document.open();
@@ -57,7 +66,6 @@
 
         } catch (err) {
             console.error("Loader Error:", err);
-            // Optional: Zeige eine Fehlermeldung im dunklen Design passend zu deiner HTML
             document.body.innerHTML = `
                 <div style="text-align:center; font-family:sans-serif; color:#555; padding-top:20vh;">
                     <h2 style="color:#09f;">Inhalt konnte nicht geladen werden</h2>
