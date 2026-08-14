@@ -1,7 +1,7 @@
 (function () {
     const botName = "tariobot"
 
-    // 1. Verschleierte Basis-Konfiguration
+    // 1. Verschleierte Basis-Konfiguration für den Heimserver (für Inhalte/Assets)
     const _parts = [
         "https",
         "://" + "chaos7",
@@ -9,6 +9,10 @@
         `/${botName}` + "/websites/"
     ];
     const baseUrl = _parts.join('');
+
+    // **Dynamische GitHub-Basis:** Leitet sich automatisch vom Repo-Namen ("codingflo") und "TarioBot" ab, 
+    // passt sich aber an, falls du den Bot-Namen (`botName`) änderst.
+    const githubBaseUrl = `https://codingflo.github.io/TarioBot/`;
 
     // 2. Automatische Erkennung des aktuellen Dateinamens
     const currentFileName = window.location.pathname.split('/').pop() || "index.html";
@@ -29,20 +33,21 @@
             const parser = new DOMParser();
             const remoteDoc = parser.parseFromString(htmlContent, 'text/html');
 
-            // 3. Asset- und Link-Pfad-Korrektur (Relative -> Absolute URLs über den Heimserver)
+            // 3. Zentrale Pfad-Korrektur für alle Ressourcen und Links
             const fixPaths = (selector, attr) => {
                 remoteDoc.querySelectorAll(selector).forEach(el => {
                     const val = el.getAttribute(attr);
+                    if (!val || /^(https?:|data:|#|\/\/)/.test(val)) return;
 
-                    // Nur relative Pfade oder interne Links umbiegen (die nicht mit http/https/data/#// beginnen)
-                    if (val && !/^(https?:|data:|#|\/\/)/.test(val)) {
-                        el.setAttribute(attr, new URL(val, baseUrl).href);
-                    }
-
-                    // Falls ein Link absolut auf den Heimserver zeigt, aber den Dateinamen behalten soll
-                    if (selector === 'a' && val && val.includes("chaos7.ddns.net")) {
+                    // Speziell für Anker-Links (<a>), die auf deinen Heimserver zeigen oder relativ sind
+                    if (selector === 'a') {
                         const fileName = val.split('/').pop();
-                        el.setAttribute(attr, baseUrl + fileName);
+                        // Leitet absolut auf deine GitHub Pages URL um
+                        el.setAttribute('href', githubBaseUrl + fileName);
+                    }
+                    // Für alle anderen Assets (CSS, JS, Bilder etc.) -> Heimserver beibehalten
+                    else {
+                        el.setAttribute(attr, new URL(val, baseUrl).href);
                     }
                 });
             };
